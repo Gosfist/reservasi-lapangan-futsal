@@ -32,7 +32,7 @@ $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
     <!-- navbar -->
     <?php require_once '../templates/navbarAdmin.php'; ?>
 
-    <!-- konten -->
+    <!-- konten home -->
     <div class="main">
       <nav class="navbar bg-light shadow">
         <div class="container-fluid">

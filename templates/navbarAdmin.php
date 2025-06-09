@@ -27,21 +27,28 @@
     <li class="sidebar-item">
       <a href="member.php" class="sidebar-link d-flex align-items-center">
         <i class="fa-solid fa-user fa-fw me-3"></i>
-        <span>Data Member</span>
+        <span>Member</span>
       </a>
     </li>
 
     <li class="sidebar-item">
       <a href="lapangan.php" class="sidebar-link d-flex align-items-center">
         <i class="fa-solid fa-dumbbell fa-fw me-3"></i>
-        <span>Data Lapangan</span>
+        <span>Lapangan</span>
+      </a>
+    </li>
+
+    <li class="sidebar-item">
+      <a href="jadwal.php" class="sidebar-link d-flex align-items-center">
+        <i class="fa-solid fa-calendar-check fa-fw me-3"></i>
+        <span>Jadwal</span>
       </a>
     </li>
 
     <li class="sidebar-item">
       <a href="pesan.php" class="sidebar-link d-flex align-items-center">
         <i class="fa-solid fa-money-bills fa-fw me-3"></i>
-        <span>Data Pesanan</span>
+        <span>Pesanan</span>
       </a>
     </li>
 
@@ -49,7 +56,7 @@
       <li class="sidebar-item">
         <a href="admin.php" class="sidebar-link d-flex align-items-center">
           <i class="fa-solid fa-user-tie fa-fw me-3"></i>
-          <span>Data Admin</span>
+          <span>Admin</span>
         </a>
       </li>
     <?php endif; ?>

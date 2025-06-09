@@ -220,3 +220,22 @@ function hapusLpg($id_lapangan)
 
     return mysqli_affected_rows($conn);
 }
+
+function editJadwal($data)
+{
+    global $conn;
+    $id_jadwal = $data["edit_id_jadwal"];
+    $hari_buka = $data["edit_hari_buka"];
+    $jam_buka = $data["edit_jam_buka"];
+    $jam_tutup = $data["edit_jam_tutup"];
+
+    $query = "UPDATE jadwal SET 
+    id_jadwal = '$id_jadwal',
+    hari_buka = '$hari_buka',
+    jam_buka = '$jam_buka',
+    jam_tutup = '$jam_tutup'
+    WHERE id_jadwal = '$id_jadwal'";
+
+    mysqli_query($conn, $query);
+    return mysqli_affected_rows($conn);
+}

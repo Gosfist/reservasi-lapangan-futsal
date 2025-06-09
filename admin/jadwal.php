@@ -134,7 +134,7 @@ if (isset($_POST["edit"])) {
                                                                     <!-- <input type="time" name="edit_jam_buka" class="form-control" id="edit_jam_buka" value="<?= $row["jam_buka"]; ?>"> -->
                                                                 </div>
 
-                                                            </div>
+                                                            </div> 
                                                             <div class="col">
                                                                 <div class="mb-3">
                                                                     <label for="edit_jam_tutup" class="form-label">Jam Tutup</label>

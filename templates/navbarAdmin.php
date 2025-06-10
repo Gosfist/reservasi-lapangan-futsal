@@ -46,9 +46,9 @@
     </li>
 
     <li class="sidebar-item">
-      <a href="pesan.php" class="sidebar-link d-flex align-items-center">
+      <a href="reservasi.php" class="sidebar-link d-flex align-items-center">
         <i class="fa-solid fa-money-bills fa-fw me-3"></i>
-        <span>Pesanan</span>
+        <span>Reservasi</span>
       </a>
     </li>
 

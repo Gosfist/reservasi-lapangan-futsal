@@ -56,7 +56,7 @@ if (isset($_POST["edit"])) {
 
 <body>
   <div class="wrapper">
-    <!-- navbar -->
+    <!-- navbar --> 
     <?php require_once '../templates/navbarAdmin.php'; ?>
 
     <!-- konten -->

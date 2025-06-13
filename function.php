@@ -14,6 +14,12 @@ function query($data)
 {
     global $conn;
     $result = mysqli_query($conn, $data);
+    if ($result === false) {
+        // DEBUG: tampilkan pesan error SQL
+        echo "SQL Error: " . mysqli_error($conn) . "<br>";
+        echo "Query: " . htmlspecialchars($data) . "<br>";
+        return [];
+    }
     $rows = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $rows[] = $row;

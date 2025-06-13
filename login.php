@@ -2,11 +2,11 @@
 session_start();
 require "function.php";
 
-if (isset($_SESSION['role']) == 'SuperAdmin') {
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'SuperAdmin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'Admin') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'User') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'User') {
   header("Location: index.php");
 }
 
@@ -35,6 +35,9 @@ if (isset($_POST["login"])) {
           }
         }
         exit;
+    } else {
+      echo "<div class='alert alert-warning'>Username atau Password salah</div>
+      <meta http-equiv='refresh' content='2'>";
     }
 
     $error = true;

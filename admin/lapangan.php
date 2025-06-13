@@ -3,8 +3,8 @@ session_start();
 require "../session.php";
 require "../function.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-  header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+  header("location:../index.php");
 }
 
 $lapangan = query("SELECT * FROM lapangan");

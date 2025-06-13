@@ -9,7 +9,7 @@ require "function.php";
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Sport Center</title>
+  <title>Basecamp Sport Center</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -37,42 +37,50 @@ require "function.php";
 
 <body class="index-page">
 
+  <!-- navbar -->
   <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="index.php" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="assets/img/logo.png" alt="">
+    <a href="index.php" class="logo d-flex align-items-center me-auto">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <img src="assets/img/logo.png" alt="">
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="index.php">Beranda<br></a></li>
+        <li><a href="user/lapangan.php">Lapangan</a></li>
+        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
+          <li class="nav-item">
+            <a class="nav-link" href="user/reservasi.php">Reservasi</a>
+          </li>
+        <?php endif; ?>
+        <li><a href="./user/kontak.php">Kontak</a></li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'superAdmin' || $_SESSION['role'] === 'admin')) : ?>
+      <a href="./admin/home.php" class="btn-getstarted">
+        <i class="bi bi-person"></i> Dashboard
       </a>
-      
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="index.php" class="active">Beranda<br></a></li>
-          <li><a href="user/lapangan.php">Lapangan</a></li>
-          <!-- <?php if ($loggedIn) : ?>
-            <li class="nav-item">
-              <a class="nav-link" href="user/pesanan.php">Pesanan</a>
-            </li>
-          <?php endif; ?> -->
-          <li><a href="kontak.php">Kontak</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+    <?php endif; ?>
 
-      <!-- <?php if ($loggedIn) : ?>
-        <!-- Jika sudah login, tampilkan tombol profil -->
-        <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#profilModal">
-          <i class="bi bi-person"></i> Profil
-        </a>
-      <?php else : ?> -->
-        <!-- Jika belum login, tampilkan tombol login -->
-        <a href="login.php" class="btn-getstarted" type="submit">
-          <i class="bi bi-box-arrow-in-right"></i> Login
-        </a>
-      <?php endif; ?>
+    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
+      <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#profilModal">
+        <i class="bi bi-person"></i> Profile
+      </a>
+    <?php endif; ?>
 
-    </div>
-  </header>
+    <?php if (!isset($_SESSION['role'])) : ?>
+      <a href="login.php" class="btn-getstarted">
+        <i class="bi bi-person"></i> Login
+      </a>
+    <?php endif; ?>
+
+
+  </div>
+</header> 
 
   <!-- Modal Profil -->
   <div class="modal fade" id="profilModal" tabindex="-1" aria-labelledby="profilModalLabel" aria-hidden="true">
@@ -94,7 +102,7 @@ require "function.php";
                 <p><?= $profil["212279_email"]; ?></p>
                 <p><?= $profil["212279_no_handphone"]; ?></p>
                 <p><?= $profil["212279_alamat"]; ?></p>
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
+                <a href="logout.php" class="btn btn-danger">Logout</a>
                 <a href="" data-bs-toggle="modal" data-bs-target="#editProfilModal" class="btn btn-inti">Edit Profil</a>
               </div>
             </div>

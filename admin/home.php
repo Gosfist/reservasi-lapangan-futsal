@@ -3,8 +3,8 @@ session_start();
 require "../function.php";
 require "../session.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-  header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+  header("location:../index.php");
 }
 
 $user = query("SELECT COUNT(id_role) AS jml_user FROM user WHERE id_role = 3")[0];

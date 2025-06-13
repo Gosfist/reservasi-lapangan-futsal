@@ -3,8 +3,8 @@ session_start();
 require "../session.php";
 require "../function.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-  header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+  header("location:../index.php");
 }
 
 $member = query("SELECT * FROM user WHERE id_role = 3");

@@ -3,9 +3,10 @@ session_start();
 require "../session.php";
 require "../function.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-    header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+    header("location:../index.php");
 }
+
 
 $jadwal = query("SELECT 
     id_jadwal,

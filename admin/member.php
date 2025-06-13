@@ -8,7 +8,7 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 }
 
 $member = query("SELECT * FROM user WHERE id_role = 3");
-if (isset($_POST["tambah"])) { 
+if (isset($_POST["tambah"])) {
   if (tambahMember($_POST) > 0) {
     echo "<script>
       alert('Member berhasil ditambahkan');
@@ -52,7 +52,7 @@ if (isset($_POST["edit"])) {
 
 <body>
   <div class="wrapper">
-    <!-- navbar --> 
+    <!-- navbar -->
     <?php require_once '../templates/navbarAdmin.php'; ?>
 
     <!-- konten -->

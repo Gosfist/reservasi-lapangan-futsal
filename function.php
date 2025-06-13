@@ -4,30 +4,31 @@ $conn = mysqli_connect("localhost", "root", "", "futsal");
 
 // Check eror koneksi database
 if (mysqli_connect_errno()) {
-    echo 'Koneksi gagal, ada masalah pada : ' . mysqli_connect_error();
-    mysqli_close($conn);
-    exit();
+  echo 'Koneksi gagal, ada masalah pada : ' . mysqli_connect_error();
+  mysqli_close($conn);
+  exit();
 }
 
 // read (memanggil data)
 function query($data)
 {
-    global $conn;
-    $result = mysqli_query($conn, $data);
-    if ($result === false) {
-        // DEBUG: tampilkan pesan error SQL
-        echo "SQL Error: " . mysqli_error($conn) . "<br>";
-        echo "Query: " . htmlspecialchars($data) . "<br>";
-        return [];
-    }
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    return $rows;
+  global $conn;
+  $result = mysqli_query($conn, $data);
+  if ($result === false) {
+    // DEBUG: tampilkan pesan error SQL
+    echo "SQL Error: " . mysqli_error($conn) . "<br>";
+    echo "Query: " . htmlspecialchars($data) . "<br>";
+    return [];
+  }
+  $rows = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $rows[] = $row;
+  }
+  return $rows;
 }
 
-function tambahMember($data) {
+function tambahMember($data)
+{
   global $conn;
 
   $nama = htmlspecialchars($data["nama_user"]);
@@ -52,7 +53,8 @@ function tambahMember($data) {
   return mysqli_affected_rows($conn);
 }
 
-function daftar($data) {
+function daftar($data)
+{
   global $conn;
 
   $nama = htmlspecialchars($data["nama"]);
@@ -78,13 +80,13 @@ function daftar($data) {
 
 function tambahadmin($data)
 {
-    global $conn;
-    $email = $data["email_user"];
-    $password = $data["password_user"];
-    $nama = $data["nama_user"];
-    $no_wa = $data["no_wa_user"];
+  global $conn;
+  $email = $data["email_user"];
+  $password = $data["password_user"];
+  $nama = $data["nama_user"];
+  $no_wa = $data["no_wa_user"];
 
-     // Validasi email harus @gmail.com
+  // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -93,22 +95,22 @@ function tambahadmin($data)
     exit;
   }
 
-    $query = "INSERT INTO user VALUES ('', '2', '$email','$password','$nama','$no_wa')";
-    mysqli_query($conn,$query);
-    return mysqli_affected_rows($conn);
+  $query = "INSERT INTO user VALUES ('', '2', '$email','$password','$nama','$no_wa')";
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function editAdmin($data)
 {
-    global $conn;
-    $id_user = $data["id_user"];
-    $id_role = $data["id_role"];
-    $email = $data["email_user"];
-    $password = $data["password_user"];
-    $nama = $data["nama_user"];
-    $no_wa = $data["no_wa_user"];
+  global $conn;
+  $id_user = $data["id_user"];
+  $id_role = $data["id_role"];
+  $email = $data["email_user"];
+  $password = $data["password_user"];
+  $nama = $data["nama_user"];
+  $no_wa = $data["no_wa_user"];
 
-     // Validasi email harus @gmail.com
+  // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -117,7 +119,7 @@ function editAdmin($data)
     exit;
   }
 
-    $query = "UPDATE user SET 
+  $query = "UPDATE user SET 
     id_user = '$id_user',
     id_role = '$id_role',
     email_user = '$email',
@@ -126,39 +128,39 @@ function editAdmin($data)
     no_wa_user  = '$no_wa' 
     WHERE id_user = '$id_user'";
 
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function hapusAdmin($data)
 {
-    global $conn;
-    $query = "DELETE FROM user WHERE id_user = '$data'";
+  global $conn;
+  $query = "DELETE FROM user WHERE id_user = '$data'";
 
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function hapusMember($data)
 {
-    global $conn;
-    $query = "DELETE FROM user WHERE id_user = '$data'";
+  global $conn;
+  $query = "DELETE FROM user WHERE id_user = '$data'";
 
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function editMember($data)
 {
-    global $conn;
-    $id_user = $data["id_user"];
-    $id_role = $data["id_role"];
-    $email = $data["email_user"];
-    $password = $data["password_user"];
-    $nama = $data["nama_user"];
-    $no_wa = $data["no_wa_user"];
+  global $conn;
+  $id_user = $data["id_user"];
+  $id_role = $data["id_role"];
+  $email = $data["email_user"];
+  $password = $data["password_user"];
+  $nama = $data["nama_user"];
+  $no_wa = $data["no_wa_user"];
 
-     // Validasi email harus @gmail.com
+  // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -166,8 +168,8 @@ function editMember($data)
     </script>";
     exit;
   }
-  
-    $query = "UPDATE user SET 
+
+  $query = "UPDATE user SET 
     id_user = '$id_user',
     id_role = '$id_role',
     email_user = '$email',
@@ -176,8 +178,8 @@ function editMember($data)
     no_wa_user  = '$no_wa' 
     WHERE id_user = '$id_user'";
 
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function tambahLpg($data)
@@ -271,45 +273,45 @@ function editLpg($data)
 
 function hapusLpg($id_lapangan)
 {
-    global $conn;
+  global $conn;
 
-    $lapangan = query("SELECT foto_lapangan FROM lapangan WHERE id_lapangan = $id_lapangan");
-    
-    if ($lapangan && !empty($lapangan[0]['foto_lapangan'])) {
-        $nama_file_foto = $lapangan[0]['foto_lapangan'];
-        
-        $project_root = __DIR__; 
-        $path_ke_file = $project_root . '/img/Lapangan/' . $nama_file_foto;
-        $path_bersih = str_replace('\\', '/', $path_ke_file);
-        
-        if (file_exists($path_bersih)) {
-            unlink($path_bersih);
-        }
+  $lapangan = query("SELECT foto_lapangan FROM lapangan WHERE id_lapangan = $id_lapangan");
+
+  if ($lapangan && !empty($lapangan[0]['foto_lapangan'])) {
+    $nama_file_foto = $lapangan[0]['foto_lapangan'];
+
+    $project_root = __DIR__;
+    $path_ke_file = $project_root . '/img/Lapangan/' . $nama_file_foto;
+    $path_bersih = str_replace('\\', '/', $path_ke_file);
+
+    if (file_exists($path_bersih)) {
+      unlink($path_bersih);
     }
+  }
 
-    // Hapus data dari tabel database
-    mysqli_query($conn, "DELETE FROM lapangan WHERE id_lapangan = $id_lapangan");
+  // Hapus data dari tabel database
+  mysqli_query($conn, "DELETE FROM lapangan WHERE id_lapangan = $id_lapangan");
 
-    return mysqli_affected_rows($conn);
+  return mysqli_affected_rows($conn);
 }
 
 function editJadwal($data)
 {
-    global $conn;
-    $id_jadwal = $data["edit_id_jadwal"];
-    $hari_buka = $data["edit_hari_buka"];
-    $jam_buka = $data["edit_jam_buka"];
-    $jam_tutup = $data["edit_jam_tutup"];
+  global $conn;
+  $id_jadwal = $data["edit_id_jadwal"];
+  $hari_buka = $data["edit_hari_buka"];
+  $jam_buka = $data["edit_jam_buka"];
+  $jam_tutup = $data["edit_jam_tutup"];
 
-    $query = "UPDATE jadwal SET 
+  $query = "UPDATE jadwal SET 
     id_jadwal = '$id_jadwal',
     hari_buka = '$hari_buka',
     jam_buka = '$jam_buka',
     jam_tutup = '$jam_tutup'
     WHERE id_jadwal = '$id_jadwal'";
 
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function konfirmasiReservasi($id_reservasi)
@@ -319,31 +321,31 @@ function konfirmasiReservasi($id_reservasi)
   $id = $id_reservasi;
 
   $tes = mysqli_query($conn, "UPDATE reservasi SET konfirmasi = 'lunas' WHERE id_reservasi = '$id'");
-  
+
   var_dump($tes);
   return mysqli_affected_rows($conn);
 }
 
 function hapusReservasi($id_reservasi)
 {
-    global $conn;
+  global $conn;
 
-    $lapangan = query("SELECT bukti_pembayaran FROM reservasi WHERE id_reservasi = $id_reservasi");
-    
-    if ($lapangan && !empty($lapangan[0]['bukti_pembayaran'])) {
-        $nama_file_foto = $lapangan[0]['bukti_pembayaran'];
-        
-        $project_root = __DIR__; 
-        $path_ke_file = $project_root . '/img/Bukti Pembayaran/' . $nama_file_foto;
-        $path_bersih = str_replace('\\', '/', $path_ke_file);
-        
-        if (file_exists($path_bersih)) {
-            unlink($path_bersih);
-        }
+  $lapangan = query("SELECT bukti_pembayaran FROM reservasi WHERE id_reservasi = $id_reservasi");
+
+  if ($lapangan && !empty($lapangan[0]['bukti_pembayaran'])) {
+    $nama_file_foto = $lapangan[0]['bukti_pembayaran'];
+
+    $project_root = __DIR__;
+    $path_ke_file = $project_root . '/img/Bukti Pembayaran/' . $nama_file_foto;
+    $path_bersih = str_replace('\\', '/', $path_ke_file);
+
+    if (file_exists($path_bersih)) {
+      unlink($path_bersih);
     }
+  }
 
-    // Hapus data dari tabel database
-    mysqli_query($conn, "DELETE FROM reservasi WHERE id_reservasi = $id_reservasi");
+  // Hapus data dari tabel database
+  mysqli_query($conn, "DELETE FROM reservasi WHERE id_reservasi = $id_reservasi");
 
-    return mysqli_affected_rows($conn);
+  return mysqli_affected_rows($conn);
 }

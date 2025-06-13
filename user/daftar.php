@@ -1,14 +1,37 @@
 <?php
-require "../functions.php";
+require "../function.php";
 
 
 if (isset($_POST["daftar"])) {
+  $email = $_POST["email"];
+  $hp = $_POST["hp"];
+
+  // Validasi email
+  if (!preg_match("/@gmail\.com$/", $email)) {
+    echo "<script>
+      alert('Email harus menggunakan @gmail.com');
+      window.location.href = 'daftar.php';
+    </script>";
+    exit;
+  }
+
+  // Validasi nomor HP
+  if (!preg_match("/^[0-9]+$/", $hp)) {
+    echo "<script>
+      alert('Nomor HP hanya boleh berisi angka');
+      window.location.href = 'daftar.php';
+    </script>";
+    exit;
+  }
+
+  // Jika semua valid, lanjut daftar
   if (daftar($_POST) > 0) {
     echo "<div class='alert alert-success'>Berhasil mendaftar, silakan login.</div>
             <meta http-equiv='refresh' content='2; url= ../login.php'/>  ";
   }
 }
 
+?>
 
 ?>
 
@@ -41,36 +64,19 @@ if (isset($_POST["daftar"])) {
             <input type="text" name="nama" class="form-control" id="nama" required>
           </div>
           <div class="col-lg-6 col-6 mb-2">
+            <label for="hp" class="form-label">No Hp</label>
+            <input type="text" name="hp" class="form-control" id="hp" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+          </div>
+          <div class="col-lg-6 col-6 mb-2">
             <label for="email" class="form-label">Email</label>
             <input type="email" name="email" class="form-control" id="email" required>
           </div>
-          <div class="col-lg-6 col-6 mb-2">
-            <label for="hp" class="form-label">No Hp</label>
-            <input type="text" name="hp" class="form-control" id="hp" required>
-          </div>
+          
           <div class="col-lg-6 col-6 mb-2">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password" required>
           </div>
-          <div class="col-12 mb-2">
-            <label for="alamat" class="form-label">Alamat</label>
-            <input type="text" name="alamat" class="form-control" id="alamat" required>
-          </div>
-          <div class="col-12 mb-2 d-flex gap-3">
-            <label class="form-label">Jenis Kelamin : </label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gender" id="male" value="Laki-Laki" required>
-              <label class="form-check-label" for="male">Laki-Laki</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gender" id="female" value="Perempuan" required>
-              <label class="form-check-label" for="female">Perempuan</label>
-            </div>
-          </div>
-          <div class="col-12">
-            <label for="foto" class="form-label">Foto</label>
-            <input type="file" name="foto" class="form-control" id="foto" required>
-          </div>
+
           <div class="col-12 my-2 text-center">
             <button class="button btn-inti" name="daftar" id="daftar">Daftar</button>
             <p class="mt-2">Sudah punya akun ? <a href="../login.php">Login</a></p>

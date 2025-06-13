@@ -14,11 +14,66 @@ function query($data)
 {
     global $conn;
     $result = mysqli_query($conn, $data);
+    if ($result === false) {
+        // DEBUG: tampilkan pesan error SQL
+        echo "SQL Error: " . mysqli_error($conn) . "<br>";
+        echo "Query: " . htmlspecialchars($data) . "<br>";
+        return [];
+    }
     $rows = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $rows[] = $row;
     }
     return $rows;
+}
+
+function tambahMember($data) {
+  global $conn;
+
+  $nama = htmlspecialchars($data["nama_user"]);
+  $email = htmlspecialchars($data["email_user"]);
+  $no_wa = htmlspecialchars($data["no_wa_user"]);
+  $password = $data["password_user"];
+  $id_role = 3;
+
+  // Validasi email harus @gmail.com
+  if (!preg_match('/@gmail\.com$/', $email)) {
+    echo "<script>
+      alert('Email harus menggunakan domain @gmail.com');
+      window.history.back();
+    </script>";
+    exit;
+  }
+
+  $query = "INSERT INTO user (nama_user, email_user, no_wa_user, password_user, id_role)
+            VALUES ('$nama', '$email', '$no_wa', '$password', $id_role)";
+  mysqli_query($conn, $query);
+
+  return mysqli_affected_rows($conn);
+}
+
+function daftar($data) {
+  global $conn;
+
+  $nama = htmlspecialchars($data["nama"]);
+  $email = strtolower($data["email"]);
+  $no_wa = htmlspecialchars($data["hp"]);
+  $password = $data["password_user"];
+  $id_role = 3; // Role member biasa
+
+  // Cek apakah email sudah dipakai
+  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cek) > 0) {
+    echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain.');</script>";
+    return 0;
+  }
+
+  // Masukkan data ke DB
+  $query = "INSERT INTO user (nama_user, email_user, no_wa_user, password_user, id_role)
+            VALUES ('$nama', '$email', '$no_wa', '$password', $id_role)";
+
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }
 
 function tambahadmin($data)
@@ -28,6 +83,15 @@ function tambahadmin($data)
     $password = $data["password_user"];
     $nama = $data["nama_user"];
     $no_wa = $data["no_wa_user"];
+
+     // Validasi email harus @gmail.com
+  if (!preg_match('/@gmail\.com$/', $email)) {
+    echo "<script>
+      alert('Email harus menggunakan domain @gmail.com');
+      window.history.back();
+    </script>";
+    exit;
+  }
 
     $query = "INSERT INTO user VALUES ('', '2', '$email','$password','$nama','$no_wa')";
     mysqli_query($conn,$query);
@@ -43,6 +107,15 @@ function editAdmin($data)
     $password = $data["password_user"];
     $nama = $data["nama_user"];
     $no_wa = $data["no_wa_user"];
+
+     // Validasi email harus @gmail.com
+  if (!preg_match('/@gmail\.com$/', $email)) {
+    echo "<script>
+      alert('Email harus menggunakan domain @gmail.com');
+      window.history.back();
+    </script>";
+    exit;
+  }
 
     $query = "UPDATE user SET 
     id_user = '$id_user',
@@ -85,6 +158,15 @@ function editMember($data)
     $nama = $data["nama_user"];
     $no_wa = $data["no_wa_user"];
 
+     // Validasi email harus @gmail.com
+  if (!preg_match('/@gmail\.com$/', $email)) {
+    echo "<script>
+      alert('Email harus menggunakan domain @gmail.com');
+      window.history.back();
+    </script>";
+    exit;
+  }
+  
     $query = "UPDATE user SET 
     id_user = '$id_user',
     id_role = '$id_role',

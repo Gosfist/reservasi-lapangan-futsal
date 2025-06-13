@@ -3,8 +3,8 @@ session_start();
 require "../function.php";
 require "../session.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-  header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+  header("location:../index.php");
 }
 
 $user = query("SELECT COUNT(id_role) AS jml_user FROM user WHERE id_role = 3")[0];
@@ -22,7 +22,8 @@ $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <title>Home</title>
 </head>
 
@@ -36,8 +37,15 @@ $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
       <nav class="navbar bg-light shadow">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-            <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Admin Dashboard
+            <?php if ($role == "SuperAdmin") : ?>
+              <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+              SuperAdmin Dashboard
+            <?php endif; ?>
+
+            <?php if ($role == "Admin") : ?>
+              <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+              Admin Dashboard
+            <?php endif; ?>
           </a>
         </div>
       </nav>

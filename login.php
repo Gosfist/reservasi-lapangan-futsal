@@ -2,11 +2,11 @@
 session_start();
 require "function.php";
 
-if (isset($_SESSION['role']) == 'SuperAdmin') {
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'SuperAdmin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'Admin') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'User') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'User') {
   header("Location: index.php");
 }
 
@@ -14,6 +14,14 @@ $error = false;
 if (isset($_POST["login"])) {
     $email = $_POST["username"];
     $password = $_POST["password"];
+
+    if (!preg_match("/@gmail\.com$/", $email)) {
+        echo "<script>
+            alert('Email harus menggunakan @gmail.com');
+            window.location.href = 'login.php';
+        </script>";
+        exit;
+    }
 
     $result = mysqli_query($conn, "SELECT * FROM user 
     JOIN role ON user.id_role = role.id_role
@@ -35,6 +43,9 @@ if (isset($_POST["login"])) {
           }
         }
         exit;
+    } else {
+      echo "<div class='alert alert-warning'>Username atau Password salah</div>
+      <meta http-equiv='refresh' content='2'>";
     }
 
     $error = true;

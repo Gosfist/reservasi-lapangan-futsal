@@ -3,8 +3,8 @@ session_start();
 require "../session.php";
 require "../function.php";
 
-if (!$role == 'SuperAdmin' && !$role == 'Admin') {
-  header("location:../login.php");
+if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+  header("location:../index.php");
 }
 
 $lapangan = query("SELECT * FROM lapangan");
@@ -60,8 +60,15 @@ if (isset($_POST["edit"])) {
       <nav class="navbar bg-light shadow">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-            <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Admin Dashboard
+            <?php if ($role == "SuperAdmin") : ?>
+              <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+              SuperAdmin Dashboard
+            <?php endif; ?>
+
+            <?php if ($role == "Admin") : ?>
+              <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+              Admin Dashboard
+            <?php endif; ?>
           </a>
         </div>
       </nav>

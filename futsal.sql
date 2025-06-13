@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jun 2025 pada 14.55
+-- Waktu pembuatan: 13 Jun 2025 pada 02.30
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.0.30
 
@@ -66,7 +66,7 @@ CREATE TABLE `lapangan` (
 
 INSERT INTO `lapangan` (`id_lapangan`, `nama_lapangan`, `harga_lapangan`, `foto_lapangan`) VALUES
 (15, 'Lapangan 1', 100000, '68425fde87da4.jpg'),
-(16, 'Lapangan 2', 1, '68428c9238ddb.jpg');
+(44, 'Lapangan 2', 100000, '684b10d7a0cdd.jpg');
 
 -- --------------------------------------------------------
 
@@ -77,11 +77,21 @@ INSERT INTO `lapangan` (`id_lapangan`, `nama_lapangan`, `harga_lapangan`, `foto_
 CREATE TABLE `reservasi` (
   `id_reservasi` int(11) NOT NULL,
   `id_jadwal` int(11) NOT NULL,
-  `id_pelanggan` int(11) NOT NULL,
+  `id_lapangan` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `tanggal_pesan` date NOT NULL,
-  `tanggal_main` int(11) NOT NULL
+  `tanggal_booking` date NOT NULL,
+  `jam_booking` text NOT NULL,
+  `harga` int(11) NOT NULL,
+  `bukti_pembayaran` text NOT NULL,
+  `konfirmasi` enum('belum lunas','lunas') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `reservasi`
+--
+
+INSERT INTO `reservasi` (`id_reservasi`, `id_jadwal`, `id_lapangan`, `id_user`, `tanggal_booking`, `jam_booking`, `harga`, `bukti_pembayaran`, `konfirmasi`) VALUES
+(4, 5, 15, 9, '2025-06-04', '9,10', 10000, 'bukti.jpg', 'lunas');
 
 -- --------------------------------------------------------
 
@@ -148,7 +158,11 @@ ALTER TABLE `lapangan`
 -- Indeks untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  ADD PRIMARY KEY (`id_reservasi`);
+  ADD PRIMARY KEY (`id_reservasi`),
+  ADD KEY `id_jadwal` (`id_jadwal`),
+  ADD KEY `id_pelanggan` (`id_lapangan`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_lapangan` (`id_lapangan`);
 
 --
 -- Indeks untuk tabel `role`
@@ -171,13 +185,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `lapangan`
 --
 ALTER TABLE `lapangan`
-  MODIFY `id_lapangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_lapangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
@@ -188,6 +202,14 @@ ALTER TABLE `user`
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `reservasi`
+--
+ALTER TABLE `reservasi`
+  ADD CONSTRAINT `reservasi_ibfk_1` FOREIGN KEY (`id_lapangan`) REFERENCES `lapangan` (`id_lapangan`),
+  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  ADD CONSTRAINT `reservasi_ibfk_3` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal` (`id_jadwal`);
 
 --
 -- Ketidakleluasaan untuk tabel `user`

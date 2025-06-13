@@ -64,6 +64,49 @@ if (isset($_POST["edit"])) {
       <div class="container">
         <h3 class="mt-4">Data Member</h3>
         <hr>
+        <button class="btn btn-inti mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal">Tambah</button>
+        <!-- Modal Tambah -->
+        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="tambahModalLabel">Tambah Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="" method="post">
+                <div class="modal-body">
+                  <!-- konten form modal -->
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col">
+                      <div class="mb-3">
+                        <label for="nama_user" class="form-label">Nama</label>
+                        <input type="text" name="nama_user" class="form-control" id="nama_user">
+                      </div>
+                      <div class="mb-3">
+                        <label for="email_user" class="form-label">Email</label>
+                        <input type="email" name="email_user" class="form-control" id="email_user">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="mb-3">
+                        <label for="no_wa_user" class="form-label">No Wa</label>
+                        <input type="number" name="no_wa_user" class="form-control" id="no_wa_user">
+                      </div>
+                      <div class="mb-3">
+                        <label for="password_user" class="form-label">Password</label>
+                        <input type="password" name="password_user" class="form-control" id="password_user">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary" name="tambah" id="tambah">Tambah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table table-hover ">
             <thead class="table-inti">

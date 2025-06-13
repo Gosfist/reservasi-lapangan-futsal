@@ -65,7 +65,6 @@ if (isset($_POST["edit"])) {
               <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
               SuperAdmin Dashboard
             <?php endif; ?>
-
             <?php if ($role == "Admin") : ?>
               <img src="../assets/img/logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
               Admin Dashboard

@@ -1,4 +1,6 @@
 <?php
+
+
 session_start();
 require "function.php";
 
@@ -23,7 +25,20 @@ if (isset($_POST["simpan"])) {
           </script>";
   }
 }
+?>
+<?php
+if (isset($_POST['kirim_wa'])) {
+    $nama   = htmlspecialchars($_POST['nama']);
+    $pesan  = htmlspecialchars($_POST['pesan']);
 
+    $no_admin = "6283110361634"; // Nomor WhatsApp admin
+    $text = "Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda:%0A%0ANama: $nama%0APesan: $pesan";
+
+    $url = "https://wa.me/6283110361634?text"  . urlencode($text);
+
+    echo "<script>window.open('$url', '_blank');</script>";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -194,53 +209,61 @@ if (isset($_POST["simpan"])) {
 <div class="container" data-aos="fade-up" data-aos-delay="100">
 
   <div class="row gy-4">
-
-    <div class="col-lg-4">
-      <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-        <i class="bi bi-geo-alt flex-shrink-0"></i>
-        <div>
-          <h3>Address</h3>
-          <p>A108 Adam Street, New York, NY 535022</p>
-        </div>
-      </div><!-- End Info Item -->
-
-      <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-        <i class="bi bi-telephone flex-shrink-0"></i>
-        <div>
-          <h3>Call Us</h3>
-          <p>+1 5589 55488 55</p>
-        </div>
-      </div><!-- End Info Item -->
-
-      <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
-        <i class="bi bi-envelope flex-shrink-0"></i>
-        <div>
-          <h3>Email Us</h3>
-          <p>info@example.com</p>
-        </div>
-      </div><!-- End Info Item -->
-
+  <!-- Kiri: Informasi Kontak -->
+  <div class="col-lg-6">
+    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+      <i class="bi bi-geo-alt flex-shrink-0"></i>
+      <div>
+        <h3>Address</h3>
+        <p>Jalan Brigjen Katamso KAV. Mbah, Gg. Mangun No.43, Tompokersan, Kec. Lumajang, Kabupaten Lumajang, Jawa Timur 67316</p>
+      </div>
     </div>
-
-    <div class="col-lg-8">
-      <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-        <div class="row gy-4">
-
-          <div class="col-md-12">
-            <input type="text" name="name" class="form-control rounded" placeholder="Nama Lengkap" required="">
+    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+      <i class="bi bi-telephone flex-shrink-0"></i>
+      <div>
+        <h3>Call Us</h3>
+        <p>+6283110361634</p>
+      </div>
+    </div>
+    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+      <i class="bi bi-envelope flex-shrink-0"></i>
+      <div>
+        <h3>Email Us</h3>
+        <p>wisnu@gmail.com</p>
+      </div>
+    </div>
   </div>
 
-          <div class="col-md-12">
-            <textarea class="form-control rounded" name="message" rows="6" placeholder="Pesan" required=""></textarea>
-          </div>
+  <!-- Kanan: Form Kontak -->
+  <div class="col-lg-6">
+    <form method="GET" action="https://wa.me/6283110361634" target="_blank" onsubmit="return sendToWA();">
+      <div class="form-group mb-3">
+        <label>Nama Lengkap</label>
+        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" required>
+      </div>
+      <div class="form-group mb-3">
+        <label>Pesan</label>
+        <textarea name="pesan" id="pesan" class="form-control" rows="5" placeholder="Pesan" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Kirim via WhatsApp</button>
+    </form>
+  </div>
+</div>
 
-          <div class="col-md-12 text-center">
+<script>
+function sendToWA() {
+    const nama = document.getElementById('nama').value;
+    const pesan = document.getElementById('pesan').value;
 
-            <button type="submit">Kirim via whatsapp</button>
-          </div>
+    const text = `Halo Admin Basecamp Sport Center,%0ASaya ingin menghubungi Anda:%0A%0ANama: ${encodeURIComponent(nama)}%0APesan: ${encodeURIComponent(pesan)}`;
+    const url = `https://wa.me/6283110361634?text=${text}`;
 
-        </div>
-      </form>
+    window.open(url, '_blank');
+    return false; // mencegah form submit default
+}
+</script>
+
+
     </div><!-- End Contact Form -->
 
   </div>

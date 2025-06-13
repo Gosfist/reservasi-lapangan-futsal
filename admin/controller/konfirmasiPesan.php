@@ -1,19 +1,19 @@
 <?php
-require "../../functions.php";
-$idsewa = $_GET["id"];
+require "../../function.php";
+$id_reservasi = $_GET["id"];
 
-if (konfirmasi($idsewa) > 0) {
+if (konfirmasiReservasi($id_reservasi) > 0) {
   echo "
   <script>
     alert('Data Berhasil DiKonfirmasi');
-    document.location.href = '../pesan.php'; 
+    document.location.href = '../reservasi.php'; 
   </script>
   ";
 } else {
   echo "
   <script>
-    alert('Data Gagal Dihapus');
-    document.location.href = '../pesan.php'; 
+    alert('Data Gagal Dikonfirmasi');
+    document.location.href = '../reservasi.php'; 
   </script>
   ";
 }

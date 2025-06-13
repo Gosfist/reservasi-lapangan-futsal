@@ -7,7 +7,6 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
   header("location:../login.php");
 }
 
-// $pesanan = query("SELECT COUNT(212279_id_bayar) AS jml_sewa FROM bayar_212279")[0];
 $user = query("SELECT COUNT(id_role) AS jml_user FROM user WHERE id_role = 3")[0];
 $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
 

@@ -8,6 +8,18 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 }
 
 $member = query("SELECT * FROM user WHERE id_role = 3");
+if (isset($_POST["tambah"])) { 
+  if (tambahMember($_POST) > 0) {
+    echo "<script>
+      alert('Member berhasil ditambahkan');
+      window.location.href = 'member.php';
+    </script>";
+  } else {
+    echo "<script>
+      alert('Gagal menambahkan member');
+    </script>";
+  }
+}
 
 if (isset($_POST["edit"])) {
   if (editMember($_POST) > 0) {

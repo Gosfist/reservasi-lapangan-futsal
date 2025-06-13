@@ -15,6 +15,14 @@ if (isset($_POST["login"])) {
     $email = $_POST["username"];
     $password = $_POST["password"];
 
+    if (!preg_match("/@gmail\.com$/", $email)) {
+        echo "<script>
+            alert('Email harus menggunakan @gmail.com');
+            window.location.href = 'login.php';
+        </script>";
+        exit;
+    }
+
     $result = mysqli_query($conn, "SELECT * FROM user 
     JOIN role ON user.id_role = role.id_role
     WHERE email_user = '$email' and password_user = '$password'");

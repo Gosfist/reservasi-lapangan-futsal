@@ -60,6 +60,13 @@
         </a>
       </li>
     <?php endif; ?>
+
+    <li class="sidebar-item">
+      <a href="../index.php" class="sidebar-link d-flex align-items-center">
+        <i class="fa-solid fa-money-bills fa-fw me-3"></i>
+        <span>Website</span>
+      </a>
+    </li>
   </ul>
 
   <div class="sidebar-footer">

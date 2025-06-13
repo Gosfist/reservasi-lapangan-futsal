@@ -7,25 +7,7 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
   header("location:../login.php");
 }
 
-
-
 $lapangan = query("SELECT * FROM lapangan");
-
-
-// // Pagination
-// $jmlHalamanPerData = 4;
-// $jumlahData = count(query("SELECT * FROM lapangan_212279"));
-// $jmlHalaman = ceil($jumlahData / $jmlHalamanPerData);
-
-// if (isset($_GET["halaman"])) {
-//   $halamanAktif = $_GET["halaman"];
-// } else {
-//   $halamanAktif = 1;
-// }
-
-// $awalData = ($jmlHalamanPerData * $halamanAktif) - $jmlHalamanPerData;
-
-// $lapangan = query("SELECT * FROM lapangan_212279 LIMIT $awalData, $jmlHalamanPerData");
 
 if (isset($_POST["simpan"])) {
   if (tambahLpg($_POST) > 0) {

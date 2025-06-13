@@ -196,18 +196,8 @@ function hapusLpg($id_lapangan)
     if ($lapangan && !empty($lapangan[0]['foto_lapangan'])) {
         $nama_file_foto = $lapangan[0]['foto_lapangan'];
         
-        // --- PATH DINAMIS YANG BENAR UNTUK STRUKTUR ANDA ---
-
-        // KARENA functions.php ADA DI ROOT PROYEK, GUNAKAN __DIR__ SECARA LANGSUNG.
-        // Ini akan secara otomatis menunjuk ke folder proyek Anda.
         $project_root = __DIR__; 
-        
-        // Gabungkan path root proyek dengan path ke folder gambar.
         $path_ke_file = $project_root . '/img/Lapangan/' . $nama_file_foto;
-
-        // --- AKHIR PATH DINAMIS ---
-
-        // Tetap lakukan pembersihan untuk keamanan
         $path_bersih = str_replace('\\', '/', $path_ke_file);
         
         if (file_exists($path_bersih)) {
@@ -237,5 +227,41 @@ function editJadwal($data)
     WHERE id_jadwal = '$id_jadwal'";
 
     mysqli_query($conn, $query);
+    return mysqli_affected_rows($conn);
+}
+
+function konfirmasiReservasi($id_reservasi)
+{
+  global $conn;
+
+  $id = $id_reservasi;
+
+  $tes = mysqli_query($conn, "UPDATE reservasi SET konfirmasi = 'lunas' WHERE id_reservasi = '$id'");
+  
+  var_dump($tes);
+  return mysqli_affected_rows($conn);
+}
+
+function hapusReservasi($id_reservasi)
+{
+    global $conn;
+
+    $lapangan = query("SELECT bukti_pembayaran FROM reservasi WHERE id_reservasi = $id_reservasi");
+    
+    if ($lapangan && !empty($lapangan[0]['bukti_pembayaran'])) {
+        $nama_file_foto = $lapangan[0]['bukti_pembayaran'];
+        
+        $project_root = __DIR__; 
+        $path_ke_file = $project_root . '/img/Bukti Pembayaran/' . $nama_file_foto;
+        $path_bersih = str_replace('\\', '/', $path_ke_file);
+        
+        if (file_exists($path_bersih)) {
+            unlink($path_bersih);
+        }
+    }
+
+    // Hapus data dari tabel database
+    mysqli_query($conn, "DELETE FROM reservasi WHERE id_reservasi = $id_reservasi");
+
     return mysqli_affected_rows($conn);
 }

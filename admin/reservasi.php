@@ -7,26 +7,10 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
   header("location:../login.php");
 }
 
-// // Pagination
-// $jmlHalamanPerData = 4;
-// $jumlahData = count(query("SELECT sewa_212279.212279_id_sewa,user_212279.212279_nama_lengkap,sewa_212279.212279_tanggal_pesan,sewa_212279.212279_jam_mulai,sewa_212279.212279_lama_sewa,sewa_212279.212279_total,bayar_212279.212279_bukti,bayar_212279.212279_konfirmasi
-// FROM sewa_212279
-// JOIN user_212279 ON sewa_212279.212279_id_user = user_212279.212279_id_user
-// JOIN bayar_212279 ON sewa_212279.212279_id_sewa = bayar_212279.212279_id_sewa"));
-// $jmlHalaman = ceil($jumlahData / $jmlHalamanPerData);
-
-// if (isset($_GET["halaman"])) {
-//   $halamanAktif = $_GET["halaman"];
-// } else {
-//   $halamanAktif = 1;
-// }
-
-// $awalData = ($jmlHalamanPerData * $halamanAktif) - $jmlHalamanPerData;
-
-// $pesan = query("SELECT sewa_212279.212279_id_sewa,user_212279.212279_nama_lengkap,sewa_212279.212279_tanggal_pesan,sewa_212279.212279_jam_mulai,sewa_212279.212279_lama_sewa,sewa_212279.212279_total,bayar_212279.212279_bukti,bayar_212279.212279_konfirmasi
-// FROM sewa_212279
-// JOIN user_212279 ON sewa_212279.212279_id_user = user_212279.212279_id_user
-// JOIN bayar_212279 ON sewa_212279.212279_id_sewa = bayar_212279.212279_id_sewa LIMIT $awalData, $jmlHalamanPerData");
+$reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
+                    FROM reservasi 
+                    JOIN user ON reservasi.id_user = user.id_user 
+                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan");
 
 
 ?>
@@ -66,10 +50,11 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
           </a>
         </div>
       </nav>
+
       <!-- Konten -->
       <div class="container">
         <!-- Konten -->
-        <h3 class="mt-4">Data Pesanan</h3>
+        <h3 class="mt-4">Data Reservasi</h3>
         <hr>
         <a href="export.php" class="btn btn-inti mb-2">Download</a>
         <div class="table-responsive">
@@ -77,40 +62,37 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
             <thead class="table-inti">
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">NamaCust</th>
-                <th scope="col">TglPesan</th>
-                <th scope="col">TglMain</th>
-                <th scope="col">Lama</th>
-                <th scope="col">Total</th>
+                <th scope="col">Nama Customer</th>
+                <th scope="col">Lapangan</th>
+                <th scope="col">Tgl Booking</th>
+                <th scope="col">Harga</th>
                 <th scope="col">Bukti</th>
                 <th scope="col">Konfir</th>
-                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              <?php $i = 1; ?>
-              <?php foreach ($pesan as $row) : ?>
+              <?php $reservasi = array_reverse($reservasi);
+              $i = count($reservasi);
+              foreach ($reservasi as $row) : ?>
                 <tr>
-                  <td><?= $i++; ?></td>
-                  <td><?= $row["212279_nama_lengkap"]; ?></td>
-                  <td><?= $row["212279_tanggal_pesan"]; ?></td>
-                  <td><?= $row["212279_jam_mulai"]; ?></td>
-                  <td><?= $row["212279_lama_sewa"]; ?></td>
-                  <td><?= $row["212279_total"]; ?></td>
-                  <td><img src="../img/<?= $row["212279_bukti"]; ?>" width="50" height="50"></td>
-                  <td><?= $row["212279_konfirmasi"]; ?></td>
+                  <td><?= $i--; ?></td>
+                  <td><?= $row["nama_user"]; ?></td>
+                  <td><?= $row["nama_lapangan"]; ?></td>
+                  <td><?= $row["tanggal_booking"]; ?></td>
+                  <td><?= $row["harga"]; ?></td>
+                  <td><img src="../img/Bukti Pembayaran/<?= $row["bukti_pembayaran"]; ?>" width="50" height="50"></td>
+
                   <td>
                     <?php
-                    $id_sewa = $row["212279_id_sewa"];
-                    if ($row["212279_konfirmasi"] == "Terkonfirmasi") {
-                      // tampilkan tombol Bayar dan Hapus
-                      echo '';
+                    $id_reservasi = $row["id_reservasi"];
+                    if ($row["konfirmasi"] == "lunas") {
+                      echo $row["konfirmasi"];
                     } else {
                       // tampilkan tombol Detail
-                      echo ' <button type="button" class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_sewa . '">
+                      echo ' <button type="button" class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">
                     Konfir
                   </button>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_sewa . '">
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">
                     Hapus
                   </button>
                   ';
@@ -119,11 +101,11 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
                   </td>
                 </tr>
                 <!-- Modal Konfirmasi -->
-                <div class="modal fade" id="konfirmasiModal<?= $row["212279_id_sewa"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                <div class="modal fade" id="konfirmasiModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Pesanan <?= $row["212279_nama_lengkap"]; ?></h5>
+                        <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Pesanan <?= $row["nama_user"]; ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
@@ -131,7 +113,7 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <a href="./controller/konfirmasiPesan.php?id=<?= $row["212279_id_sewa"]; ?>" class="btn btn-primary">Konfirmasi</a>
+                        <a href="./controller/konfirmasiPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-primary">Konfirmasi</a>
                       </div>
                     </div>
                   </div>
@@ -139,11 +121,11 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
                 <!-- End Modal Konfirmasi -->
 
                 <!-- Modal Hapus -->
-                <div class="modal fade" id="hapusModal<?= $row["212279_id_sewa"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["212279_nama_lengkap"]; ?></h5>
+                        <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
@@ -151,7 +133,7 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <a href="./controller/hapusPesan.php?id=<?= $row["212279_id_sewa"]; ?>" class="btn btn-danger">Hapus</a>
+                        <a href="./controller/hapusPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Hapus</a>
                       </div>
                     </div>
                   </div>
@@ -162,27 +144,7 @@ if (!$role == 'SuperAdmin' && !$role == 'Admin') {
           </table>
         </div>
 
-        <ul class="pagination">
-          <?php if ($halamanAktif > 1) : ?>
-            <li class="page-item">
-              <a href="?halaman=<?= $halamanAktif - 1; ?>" class="page-link">Previous</a>
-            </li>
-          <?php endif; ?>
 
-          <?php for ($i = 1; $i <= $jmlHalaman; $i++) : ?>
-            <?php if ($i == $halamanAktif) : ?>
-              <li class="page-item active"><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
-            <?php else : ?>
-              <li class="page-item "><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
-            <?php endif; ?>
-          <?php endfor; ?>
-
-          <?php if ($halamanAktif < $jmlHalaman) : ?>
-            <li class="page-item">
-              <a href="?halaman=<?= $halamanAktif + 1; ?>" class="page-link">Next</a>
-            </li>
-          <?php endif; ?>
-        </ul>
       </div>
     </div>
 

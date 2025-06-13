@@ -1,7 +1,6 @@
 <?php
 require "../function.php";
 
-
 if (isset($_POST["daftar"])) {
   $email = $_POST["email"];
   $hp = $_POST["hp"];

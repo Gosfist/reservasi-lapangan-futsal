@@ -9,11 +9,8 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 
 
 $jadwal = query("SELECT 
-    id_jadwal,
-    hari_buka, 
-    DATE_FORMAT(jam_buka, '%H:%i') AS jam_buka, 
-    DATE_FORMAT(jam_tutup, '%H:%i') AS jam_tutup 
-FROM jadwal;");
+    id_jadwal, hari_buka, DATE_FORMAT(jam_buka, '%H:%i') AS jam_buka, 
+    DATE_FORMAT(jam_tutup, '%H:%i') AS jam_tutup FROM jadwal;");
 
 if (isset($_POST["edit"])) {
     if (editJadwal($_POST) > 0) {

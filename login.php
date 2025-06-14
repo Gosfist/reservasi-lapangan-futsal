@@ -2,54 +2,52 @@
 session_start();
 require "function.php";
 
-if (isset($_SESSION['role']) == 'SuperAdmin') {
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'SuperAdmin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'Admin') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin') {
   header("Location: admin/home.php");
-} else if (isset($_SESSION['role']) == 'User') {
+} else if (isset($_SESSION['role']) && $_SESSION['role'] === 'User') {
   header("Location: index.php");
 }
 
 $error = false;
 if (isset($_POST["login"])) {
-    $email = $_POST["username"];
-    $password = $_POST["password"];
+  $email = $_POST["username"];
+  $password = $_POST["password"];
 
-    if (!preg_match("/@gmail\.com$/", $email)) {
-        echo "<script>
+  if (!preg_match("/@gmail\.com$/", $email)) {
+    echo "<script>
             alert('Email harus menggunakan @gmail.com');
             window.location.href = 'login.php';
         </script>";
-        exit;
-    }
+    exit;
+  }
 
-    $result = mysqli_query($conn, "SELECT * FROM user 
+  $result = mysqli_query($conn, "SELECT * FROM user 
     JOIN role ON user.id_role = role.id_role
     WHERE email_user = '$email' and password_user = '$password'");
-    
-    if (mysqli_num_rows($result) === 1) {
-        $data = mysqli_fetch_assoc($result);
-        $_SESSION['nama'] = $data['nama_user'];
-        $_SESSION['email'] = $email;
-        $_SESSION['role'] = $data['nama_role'];
 
-        if (isset($_SESSION["role"])) {
-          if ($_SESSION["role"] == "SuperAdmin") {
-            header("Location: admin/home.php");
-          } else if ($_SESSION["role"] == "Admin") {
-            header("Location: admin/home.php");
-          } else {
-            header("Location: user/lapangan.php");
-          }
-        }
-        exit;
+  if (mysqli_num_rows($result) === 1) {
+    $data = mysqli_fetch_assoc($result);
+    $_SESSION['nama'] = $data['nama_user'];
+    $_SESSION['email'] = $email;
+    $_SESSION['role'] = $data['nama_role'];
+
+    if (isset($_SESSION["role"])) {
+      if ($_SESSION["role"] == "SuperAdmin") {
+        header("Location: admin/home.php");
+      } else if ($_SESSION["role"] == "Admin") {
+        header("Location: admin/home.php");
+      } else {
+        header("Location: user/lapangan.php");
+      }
     }
-
-    $error = true;
+    exit;
+  } else {
+    
+  }
+  $error = "Username atau Password salah";
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -60,12 +58,19 @@ if (isset($_POST["login"])) {
   <meta charset="utf-8">
   <title>Login Sport Center</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body class="login">
   <div class="center">
-   
+    <?php if ($error): ?>
+      <div class="alert alert-danger" id="error-alert"><?= $error ?></div>
+      <script>
+        setTimeout(function() {
+            document.getElementById("error-alert").style.display = "none";
+        }, 3000); // Menghilangkan alert setelah 3 detik
+    </script>
+    <?php endif; ?>
     <h1>Login</h1>
     <form method="POST">
       <div class="txt_field">

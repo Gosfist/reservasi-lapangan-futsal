@@ -64,7 +64,7 @@ if (isset($_POST['kirim_wa'])) {
 
           </div>
 
-          <!-- Kanan: Form Kontak -->
+          
           <div class="col-lg-6">
             <form method="GET" action="https://wa.me/6283110361634" target="_blank" onsubmit="return sendToWA();">
               <div class="form-group mb-3">

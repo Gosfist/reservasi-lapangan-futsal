@@ -4,16 +4,16 @@ require "../function.php";
 
 
 if (isset($_POST['kirim_wa'])) {
-    $nama   = htmlspecialchars($_POST['nama']);
-    $pesan  = htmlspecialchars($_POST['pesan']);
+  $nama   = htmlspecialchars($_POST['nama']);
+  $pesan  = htmlspecialchars($_POST['pesan']);
 
-    $no_admin = "6283110361634"; // Nomor WhatsApp admin
-    $text = "Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda:%0A%0ANama: $nama%0APesan: $pesan";
+  $no_admin = "6283110361634"; // Nomor WhatsApp admin
+  $text = "Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda:%0A%0ANama: $nama%0APesan: $pesan";
 
-    $url = "https://wa.me/6283110361634?text"  . urlencode($text);
+  $url = "https://wa.me/6283110361634?text"  . urlencode($text);
 
-    echo "<script>window.open('$url', '_blank');</script>";
-    exit;
+  echo "<script>window.open('$url', '_blank');</script>";
+  exit;
 }
 ?>
 <!DOCTYPE html>
@@ -64,21 +64,21 @@ if (isset($_POST['kirim_wa'])) {
 
           </div>
 
-        
-  <div class="col-lg-6">
-    <form method="GET" action="https://wa.me/6283110361634" target="_blank" onsubmit="return sendToWA();">
-      <div class="form-group mb-3">
-        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" required>
-      </div>
-      <div class="form-group mb-3">
-        <textarea name="pesan" id="pesan" class="form-control" rows="5" placeholder="Pesan" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-success">Kirim via WhatsApp</button>
-    </form>
-  </div>
-</div>
-
+          
+          <div class="col-lg-6">
+            <form method="GET" action="https://wa.me/6283110361634" target="_blank" onsubmit="return sendToWA();">
+              <div class="form-group mb-3">
+                <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" required>
+              </div>
+              <div class="form-group mb-3">
+                <textarea name="pesan" id="pesan" class="form-control" rows="5" placeholder="Pesan" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-success">Kirim via WhatsApp</button>
+            </form>
+          </div>
         </div>
+
+      </div>
 
       </div>
 
@@ -86,17 +86,17 @@ if (isset($_POST['kirim_wa'])) {
   </main>
 
   <script>
-function sendToWA() {
-    const nama = document.getElementById('nama').value;
-    const pesan = document.getElementById('pesan').value;
+    function sendToWA() {
+      const nama = document.getElementById('nama').value;
+      const pesan = document.getElementById('pesan').value;
 
-    const text = `Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda%0A%0ANama: ${encodeURIComponent(nama)}%0APesan: ${encodeURIComponent(pesan)}`;
-    const url = `https://wa.me/6283110361634?text=${text}`;
+      const text = `Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda%0A%0ANama: ${encodeURIComponent(nama)}%0APesan: ${encodeURIComponent(pesan)}`;
+      const url = `https://wa.me/6283110361634?text=${text}`;
 
-    window.open(url, '_blank');
-    return false; // mencegah form submit default
-}
-</script>
+      window.open(url, '_blank');
+      return false; // mencegah form submit default
+    }
+  </script>
 
   <!-- Footer -->
   <?php require_once '../templates/footerUser.php'; ?>

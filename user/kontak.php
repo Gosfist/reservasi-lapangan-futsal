@@ -41,7 +41,7 @@ if (isset($_POST['kirim_wa'])) {
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
                 <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                <p>Jalan Brigjen Katamso KAV. Mbah, Gg. Mangun No.43, Tompokersan, Kec. Lumajang, Kabupaten Lumajang, Jawa Timur 67316</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -49,7 +49,7 @@ if (isset($_POST['kirim_wa'])) {
               <i class="bi bi-telephone flex-shrink-0"></i>
               <div>
                 <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
+                <p>+6283110361634</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -57,7 +57,7 @@ if (isset($_POST['kirim_wa'])) {
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>info@example.com</p>
+                <p>wisnu@gmsil.com</p>
               </div>
             </div><!-- End Info Item -->
 

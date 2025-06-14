@@ -184,7 +184,8 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pesanModal<?= $row["id_lapangan"]; ?>">Pesan</button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jadwalModal<?= $row["id_lapangan"]; ?>" data-id="<?= $row["id_lapangan"]; ?>">Jadwal</button>
                   <?php else : ?>
-                    <a href="../login.php" class="btn btn-success">Pesan</a>
+                    <a href="#" class="btn btn-success" onclick="notiflogin()">Pesan</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jadwalModal<?= $row["id_lapangan"]; ?>" data-id="<?= $row["id_lapangan"]; ?>">Jadwal</button>
                   <?php endif; ?>
                 </div>
               </div>
@@ -251,6 +252,12 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                 </div>
               </div>
             </div>
+
+            <script>
+              function notiflogin() {
+                alert("Silakan login terlebih dulu sebelum melakukan pemesanan.");
+              }
+            </script>
 
             <script>
               $(document).ready(function() {

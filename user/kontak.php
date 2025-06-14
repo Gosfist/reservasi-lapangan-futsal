@@ -1,7 +1,7 @@
 <?php
 session_start();
 require "../function.php";
-
+require "../session.php";
 
 if (isset($_POST['kirim_wa'])) {
   $nama   = htmlspecialchars($_POST['nama']);

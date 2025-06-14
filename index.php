@@ -50,7 +50,7 @@ require "function.php";
       <ul>
         <li><a href="index.php">Beranda<br></a></li>
         <li><a href="user/lapangan.php">Lapangan</a></li>
-        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
+        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User' || $_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
           <li class="nav-item">
             <a class="nav-link" href="user/reservasi.php">Reservasi</a>
           </li>
@@ -60,7 +60,7 @@ require "function.php";
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
 
-    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'superAdmin' || $_SESSION['role'] === 'admin')) : ?>
+    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
       <a href="./admin/home.php" class="btn-getstarted">
         <i class="bi bi-person"></i> Dashboard
       </a>

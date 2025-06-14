@@ -4,27 +4,27 @@
 session_start();
 require "function.php";
 
-$loggedIn = isset($_SESSION['role']);
+// $loggedIn = isset($_SESSION['role']);
 
-if ($loggedIn) {
+// if ($loggedIn) {
 
-  $id_user = $_SESSION["id_user"];
+//   $id_user = $_SESSION["id_user"];
 
-  // Melakukan query hanya jika $_SESSION["id_user"] sudah terdefinisi
-  $profil = query("SELECT * FROM user_212279 WHERE 212279_id_user = '$id_user'")[0];
-}
+//   // Melakukan query hanya jika $_SESSION["id_user"] sudah terdefinisi
+//   $profil = query("SELECT * FROM user_212279 WHERE 212279_id_user = '$id_user'")[0];
+// }
 
-if (isset($_POST["simpan"])) {
-  if (edit($_POST) > 0) {
-    echo "<script>
-          alert('Berhasil Diubah');
-          </script>";
-  } else {
-    echo "<script>
-          alert('Gagal Diubah');
-          </script>";
-  }
-}
+// if (isset($_POST["simpan"])) {
+//   if (edit($_POST) > 0) {
+//     echo "<script>
+//           alert('Berhasil Diubah');
+//           </script>";
+//   } else {
+//     echo "<script>
+//           alert('Gagal Diubah');
+//           </script>";
+//   }
+// }
 ?>
 <?php
 if (isset($_POST['kirim_wa'])) {

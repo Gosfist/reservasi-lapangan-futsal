@@ -44,10 +44,9 @@ if (isset($_POST["login"])) {
     }
     exit;
   } else {
-    echo "<div class='alert alert-warning'>Username atau Password salah</div>
-      <meta http-equiv='refresh' content='2'>";
+    
   }
-  $error = true;
+  $error = "Username atau Password salah";
 }
 ?>
 
@@ -59,12 +58,19 @@ if (isset($_POST["login"])) {
   <meta charset="utf-8">
   <title>Login Sport Center</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body class="login">
   <div class="center">
-
+    <?php if ($error): ?>
+      <div class="alert alert-danger" id="error-alert"><?= $error ?></div>
+      <script>
+        setTimeout(function() {
+            document.getElementById("error-alert").style.display = "none";
+        }, 3000); // Menghilangkan alert setelah 3 detik
+    </script>
+    <?php endif; ?>
     <h1>Login</h1>
     <form method="POST">
       <div class="txt_field">

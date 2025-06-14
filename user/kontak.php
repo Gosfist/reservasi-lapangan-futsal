@@ -2,8 +2,20 @@
 session_start();
 require "../function.php";
 
-?>
 
+if (isset($_POST['kirim_wa'])) {
+  $nama   = htmlspecialchars($_POST['nama']);
+  $pesan  = htmlspecialchars($_POST['pesan']);
+
+  $no_admin = "6283110361634"; // Nomor WhatsApp admin
+  $text = "Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda:%0A%0ANama: $nama%0APesan: $pesan";
+
+  $url = "https://wa.me/6283110361634?text"  . urlencode($text);
+
+  echo "<script>window.open('$url', '_blank');</script>";
+  exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,33 +64,39 @@ require "../function.php";
 
           </div>
 
-          <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-12">
-                  <input type="text" name="name" class="form-control rounded" placeholder="Nama Lengkap" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control rounded" name="message" rows="6" placeholder="Pesan" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-
-                  <button type="submit">Kirim via whatsapp</button>
-                </div>
-
+          <!-- Kanan: Form Kontak -->
+          <div class="col-lg-6">
+            <form method="GET" action="https://wa.me/6283110361634" target="_blank" onsubmit="return sendToWA();">
+              <div class="form-group mb-3">
+                <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" required>
               </div>
+              <div class="form-group mb-3">
+                <textarea name="pesan" id="pesan" class="form-control" rows="5" placeholder="Pesan" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-success">Kirim via WhatsApp</button>
             </form>
-          </div><!-- End Contact Form -->
-
+          </div>
         </div>
+
+      </div>
 
       </div>
 
     </section><!-- /Contact Section -->
   </main>
+
+  <script>
+    function sendToWA() {
+      const nama = document.getElementById('nama').value;
+      const pesan = document.getElementById('pesan').value;
+
+      const text = `Halo Admin Basecamp%20Sport%20Center,%0ASaya ingin menghubungi Anda%0A%0ANama: ${encodeURIComponent(nama)}%0APesan: ${encodeURIComponent(pesan)}`;
+      const url = `https://wa.me/6283110361634?text=${text}`;
+
+      window.open(url, '_blank');
+      return false; // mencegah form submit default
+    }
+  </script>
 
   <!-- Footer -->
   <?php require_once '../templates/footerUser.php'; ?>

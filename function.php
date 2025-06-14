@@ -60,7 +60,7 @@ function daftar($data)
   $nama = htmlspecialchars($data["nama"]);
   $email = strtolower($data["email"]);
   $no_wa = htmlspecialchars($data["hp"]);
-  $password = $data["password_user"];
+  $password = $data["password"];
   $id_role = 3; // Role member biasa
 
   // Cek apakah email sudah dipakai

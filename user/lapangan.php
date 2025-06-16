@@ -209,10 +209,8 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                       <div class="mb-3">
                         <img src="../img/Lapangan/<?= $row["foto_lapangan"]; ?>" alt="gambar lapangan" class="img-fluid">
                       </div>
-                      <div class="text-center">
-                        <h6 name="harga">Harga : <?= $row["harga_lapangan"]; ?>/jam</h6>
-                      </div>
-                      <div class="row">
+                      
+                      <div class="row mt-3">
                         <div class="col-6">
                           <label class="form-label">Tanggal Main</label>
                           <input type="date" name="tgl_main" class="form-control tgl-main btn-outline-dark" id="tgl_main_<?= $row["id_lapangan"]; ?>" required>

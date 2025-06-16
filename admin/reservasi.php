@@ -66,6 +66,8 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                 <th scope="col">Nama Customer</th>
                 <th scope="col">Lapangan</th>
                 <th scope="col">Tgl Booking</th>
+                <th scope="col">Jam Booking</th>
+                <th scope="col">Lama Sewa</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Bukti</th>
                 <th scope="col">Konfir</th>
@@ -80,6 +82,12 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                   <td><?= $row["nama_user"]; ?></td>
                   <td><?= $row["nama_lapangan"]; ?></td>
                   <td><?= $row["tanggal_booking"]; ?></td>
+                  <td><?= formatJamBooking($row["jam_booking"]); ?></td>
+                  <td><?php
+                      $toarray = explode(',', $row["jam_booking"]);
+                      $lamasewa = count($toarray);
+                      echo "$lamasewa Jam" ?>
+                  </td>
                   <td><?= $row["harga"]; ?></td>
                   <td><img src="../img/Bukti Pembayaran/<?= $row["bukti_pembayaran"]; ?>" width="50" height="50"></td>
 

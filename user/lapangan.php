@@ -24,7 +24,10 @@ if (isset($_POST["simpan"])) {
   }
 }
 
+
+
 if (isset($_POST["pesan"])) {
+
   if (pesan($_POST) > 0) {
     echo "<script>
           alert('Berhasil DiPesan');
@@ -207,7 +210,7 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                         <img src="../img/Lapangan/<?= $row["foto_lapangan"]; ?>" alt="gambar lapangan" class="img-fluid">
                       </div>
                       <div class="text-center">
-                        <h6 name="harga">Harga : <?= $row["harga_lapangan"]; ?></h6>
+                        <h6 name="harga">Harga : <?= $row["harga_lapangan"]; ?>/jam</h6>
                       </div>
                       <div class="row">
                         <div class="col-6">
@@ -345,4 +348,4 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
   </script>
 </body>
 
-</html>
+</html> 

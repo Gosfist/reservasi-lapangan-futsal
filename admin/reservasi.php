@@ -26,6 +26,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="../assets/img/logo.png" rel="icon">
 
   <title>Homes</title>
 </head>
@@ -65,6 +66,8 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                 <th scope="col">Nama Customer</th>
                 <th scope="col">Lapangan</th>
                 <th scope="col">Tgl Booking</th>
+                <th scope="col">Jam Booking</th>
+                <th scope="col">Lama Sewa</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Bukti</th>
                 <th scope="col">Konfir</th>
@@ -79,6 +82,12 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                   <td><?= $row["nama_user"]; ?></td>
                   <td><?= $row["nama_lapangan"]; ?></td>
                   <td><?= $row["tanggal_booking"]; ?></td>
+                  <td><?= formatJamBooking($row["jam_booking"]); ?></td>
+                  <td><?php
+                      $toarray = explode(',', $row["jam_booking"]);
+                      $lamasewa = count($toarray);
+                      echo "$lamasewa Jam" ?>
+                  </td>
                   <td><?= $row["harga"]; ?></td>
                   <td><img src="../img/Bukti Pembayaran/<?= $row["bukti_pembayaran"]; ?>" width="50" height="50"></td>
 

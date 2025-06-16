@@ -360,8 +360,72 @@ function pesan($data)
   $tglMain = $data["tgl_main"];
   $jamMulai = $data["jam_mulai"];
   $harga = $data["harga_lapangan"];
+  $toarray = explode(',', $jamMulai);
+  $hargatotal = count($toarray) * $harga;
 
-  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$harga','kosong','belum lunas')";
+  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$hargatotal','kosong','belum lunas')";
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
+
+function formatJamBooking($dbString)
+{
+    // Jika string kosong, kembalikan string kosong
+    if (empty(trim($dbString))) {
+        return '';
+    }
+    
+    $ranges = explode(',', $dbString);
+
+    // 2. Ambil semua jam yang dibooking
+    $bookedHours = [];
+    foreach ($ranges as $range) {
+        $parts = explode('-', trim($range));
+        if (count($parts) === 2) {
+            $start = (int)$parts[0];
+            $end = (int)$parts[1];
+            // Tambahkan semua jam dalam rentang ke array
+            for ($h = $start; $h < $end; $h++) {
+                $bookedHours[] = $h;
+            }
+        }
+    }
+
+    if (empty($bookedHours)) {
+        return $dbString; // Kembalikan string asli jika format tidak dikenali
+    }
+
+    // 3. Urutkan dan hapus duplikat
+    sort($bookedHours);
+    $bookedHours = array_unique($bookedHours);
+
+    // 4. Kelompokkan jam-jam yang berurutan
+    $groups = [];
+    $currentGroup = [];
+    $lastHour = -1;
+
+    foreach ($bookedHours as $hour) {
+        if ($lastHour !== -1 && $hour > $lastHour + 1) {
+            // Jika ada jeda, simpan grup sebelumnya dan mulai grup baru
+            $groups[] = $currentGroup;
+            $currentGroup = [];
+        }
+        $currentGroup[] = $hour;
+        $lastHour = $hour;
+    }
+    // Simpan grup terakhir
+    $groups[] = $currentGroup;
+
+    // 5. Format setiap grup menjadi string HH:MM
+    $outputParts = [];
+    foreach ($groups as $group) {
+        if (!empty($group)) {
+            $startHour = min($group);
+            $endHour = max($group) + 1; // Jam selesai adalah jam terakhir + 1
+            $outputParts[] = sprintf('%02d:00 - %02d:00', $startHour, $endHour);
+        }
+    }
+
+    // 6. Gabungkan semua bagian menjadi satu string akhir
+    return implode(', ', $outputParts);
+} 

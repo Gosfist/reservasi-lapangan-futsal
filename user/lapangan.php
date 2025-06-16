@@ -28,7 +28,7 @@ if (isset($_POST["pesan"])) {
   if (pesan($_POST) > 0) {
     echo "<script>
           alert('Berhasil DiPesan');
-          document.location.href = 'pesanan.php';
+          document.location.href = 'lapangan.php';
           </script>";
   } else {
     echo "<script>
@@ -201,6 +201,8 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                   </div>
                   <form action="" method="post">
                     <div class="row justify-content-center align-items-center">
+                      <input type="hidden" name="id_lapangan" class="form-control" id="id_lapangan" value="<?= $row["id_lapangan"]; ?>">
+                      <input type="hidden" name="harga_lapangan" class="form-control" id="harga_lapangan" value="<?= $row["harga_lapangan"]; ?>">
                       <div class="mb-3">
                         <img src="../img/Lapangan/<?= $row["foto_lapangan"]; ?>" alt="gambar lapangan" class="img-fluid">
                       </div>
@@ -253,41 +255,6 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
               </div>
             </div>
 
-            <script>
-              function notiflogin() {
-                alert("Silakan login terlebih dulu sebelum melakukan pemesanan.");
-              }
-            </script>
-
-            <script>
-              $(document).ready(function() {
-                $('.cek-jam-btn').click(function() {
-                  var lapId = $(this).data('lapangan');
-                  var tgl = $('#tgl_main_' + lapId).val();
-                  if (!tgl) {
-                    $('#jamCheckboxContainer' + lapId).html('<div class="text-danger">Silakan pilih tanggal terlebih dahulu!</div>');
-                    return;
-                  }
-                  $.get('./controller/cekKetersediaan.php', {
-                    tgl: tgl,
-                    id_lapangan: lapId
-                  }, function(data) {
-                    $('#jamCheckboxContainer' + lapId).html(data);
-                  });
-                });
-
-                // Update hidden input jika checkbox berubah
-                $(document).on('change', '[id^=jamCheckboxContainer] input[type=checkbox]', function() {
-                  var lapId = $(this).closest('div[id^=jamCheckboxContainer]').attr('id').replace('jamCheckboxContainer', '');
-                  var checked = [];
-                  $('#jamCheckboxContainer' + lapId + ' input[type=checkbox]:checked').each(function() {
-                    checked.push($(this).val());
-                  });
-                  $('#jam_mulai_input' + lapId).val(checked.join(','));
-                });
-              });
-            </script>
-
             <!-- Modal Jadwal -->
             <div class="modal fade" id="jadwalModal<?= $row["id_lapangan"]; ?>" tabindex="-1" aria-labelledby="jadwalModalLabel<?= $row["id_lapangan"]; ?>" aria-hidden="true">
               <div class="modal-dialog modal-lg">
@@ -315,13 +282,13 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                 </div>
               </div>
             </div>
-
-
           <?php endforeach; ?>
         </div>
       </div>
       <section>
   </main>
+
+
 
   <!-- Footer -->
   <?php require_once '../templates/footerUser.php'; ?>
@@ -341,6 +308,41 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
   <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="../assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    function notiflogin() {
+      alert("Silakan login terlebih dulu sebelum melakukan pemesanan.");
+    }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('.cek-jam-btn').click(function() {
+        var lapId = $(this).data('lapangan');
+        var tgl = $('#tgl_main_' + lapId).val();
+        if (!tgl) {
+          $('#jamCheckboxContainer' + lapId).html('<div class="text-danger">Silakan pilih tanggal terlebih dahulu!</div>');
+          return;
+        }
+        $.get('./controller/cekKetersediaan.php', {
+          tgl: tgl,
+          id_lapangan: lapId
+        }, function(data) {
+          $('#jamCheckboxContainer' + lapId).html(data);
+        });
+      });
+
+      // Update hidden input jika checkbox berubah
+      $(document).on('change', '[id^=jamCheckboxContainer] input[type=checkbox]', function() {
+        var lapId = $(this).closest('div[id^=jamCheckboxContainer]').attr('id').replace('jamCheckboxContainer', '');
+        var checked = [];
+        $('#jamCheckboxContainer' + lapId + ' input[type=checkbox]:checked').each(function() {
+          checked.push($(this).val());
+        });
+        $('#jam_mulai_input' + lapId).val(checked.join(','));
+      });
+    });
+  </script>
 </body>
 
 </html>

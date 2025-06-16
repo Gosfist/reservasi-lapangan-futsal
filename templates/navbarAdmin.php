@@ -63,17 +63,17 @@
 
     <li class="sidebar-item">
       <a href="../index.php" class="sidebar-link d-flex align-items-center">
-        <i class="fa-solid fa-globe"></i>
+        <i class="fa-solid fa-globe fa-fw me-3"></i>
         <span>Website</span>
       </a>
     </li>
-  </ul>
 
-  <div class="sidebar-footer">
-    <a href="../logout.php" class="sidebar-link">
-      <i class="fa-solid fa-right-from-bracket"></i>
-      <span>Logout</span>
-    </a>
-  </div>
+    <li class="sidebar-item">
+      <a href="../logout.php" class="sidebar-link d-flex align-items-center">
+        <i class="fa-solid fa-right-from-bracket fa-fw me-3"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
 
 </aside>

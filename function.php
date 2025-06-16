@@ -349,3 +349,19 @@ function hapusReservasi($id_reservasi)
 
   return mysqli_affected_rows($conn);
 }
+
+
+// reservasi 
+function pesan($data)
+{
+  global $conn;
+  $lapangan = $data["id_lapangan"];
+  $user = $_SESSION['id_user'];
+  $tglMain = $data["tgl_main"];
+  $jamMulai = $data["jam_mulai"];
+  $harga = $data["harga_lapangan"];
+
+  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$harga','kosong','belum lunas')";
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
+}

@@ -320,7 +320,7 @@ function konfirmasiReservasi($id_reservasi)
 
   $id = $id_reservasi;
 
-  $tes = mysqli_query($conn, "UPDATE reservasi SET konfirmasi = 'lunas' WHERE id_reservasi = '$id'");
+  $tes = mysqli_query($conn, "UPDATE reservasi SET status = 'lunas' WHERE id_reservasi = '$id'");
 
   var_dump($tes);
   return mysqli_affected_rows($conn);
@@ -357,13 +357,14 @@ function pesan($data)
   global $conn;
   $lapangan = $data["id_lapangan"];
   $user = $_SESSION['id_user'];
+  $tanggal_dipesan = date("Y-m-d");
   $tglMain = $data["tgl_main"];
   $jamMulai = $data["jam_mulai"];
   $harga = $data["harga_lapangan"];
   $toarray = explode(',', $jamMulai);
   $hargatotal = count($toarray) * $harga;
 
-  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$hargatotal','','belum lunas')";
+  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tanggal_dipesan','$tglMain','$jamMulai','$hargatotal','','belum lunas')";
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
@@ -486,4 +487,35 @@ function uploadBukti()
   // Move File
   move_uploaded_file($tmpName, '../img/Bukti/' . $namaFileBaru);
   return $namaFileBaru;
+}
+
+// edit profile
+function editprofile($data)
+{
+  global $conn;
+  $id_user = $data["id_user"];
+  $email = $data["email"];
+  $password = $data["pass"];
+  $nama = $data["nama"];
+  $no_wa = $data["nowa"];
+
+  // Validasi email harus @gmail.com
+  if (!preg_match('/@gmail\.com$/', $email)) {
+    echo "<script>
+      alert('Email harus menggunakan domain @gmail.com');
+      window.history.back();
+    </script>";
+    exit;
+  }
+
+  $query = "UPDATE user SET 
+    id_user = '$id_user',
+    email_user = '$email',
+    password_user = '$password',
+    nama_user = '$nama',
+    no_wa_user  = '$no_wa' 
+    WHERE id_user = '$id_user'";
+
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }

@@ -38,7 +38,11 @@ if (isset($_POST["edit"])) {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="../assets/img/logo.png" rel="icon">
-
+    <style>
+    .btn-sm {
+      min-width: 60px;
+    }
+  </style>
     <title>Home</title>
 </head>
 
@@ -72,11 +76,11 @@ if (isset($_POST["edit"])) {
                     <table class="table table-hover ">
                         <thead class="table-inti">
                             <tr>
-                                <th style="width:5%;" scope="col">No</th>
-                                <th style="width:25%;" scope="col">Hari</th>
-                                <th style="width:25%;" scope="col">Jam Buka</th>
-                                <th style="width:25%;" scope="col">Jam Tutup</th>
-                                <th style="width:20%;" scope="col">Aksi</th>
+                                <th scope="col">No</th>
+                                <th scope="col">Hari</th>
+                                <th scope="col">Jam Buka</th>
+                                <th scope="col">Jam Tutup</th>
+                                <th style="width:15%;" scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +92,7 @@ if (isset($_POST["edit"])) {
                                     <td><?= $row["jam_buka"]; ?></td>
                                     <td><?= $row["jam_tutup"]; ?></td>
                                     <td>
-                                        <button class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_jadwal"]; ?>">Edit</button>
+                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_jadwal"]; ?>">Edit</button>
                                     </td>
 
                                     <!-- Edit Jadwal -->

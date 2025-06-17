@@ -35,19 +35,6 @@ if (isset($_POST["edit"])) {
   }
 }
 
-if (isset($_POST["editprofile"])) {
-  if (editprofile($_POST) > 0) {
-    echo "<script>
-  alert('Berhasil Di Edit');
-  window.location.href = 'lapangan.php';
-</script>";
-  } else {
-    echo "<script>
-  alert('Gagal Di Edit');
-</script>";
-  }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

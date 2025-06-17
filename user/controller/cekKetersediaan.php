@@ -28,7 +28,7 @@ $start = (int)substr($jadwal['jam_buka'], 0, 2);
 $end = (int)substr($jadwal['jam_tutup'], 0, 2);
 
 $booking_details = [];
-$reservasi = query("SELECT jam_booking FROM reservasi WHERE tanggal_booking='$tgl' AND id_lapangan='$id_lapangan' AND konfirmasi='lunas'");
+$reservasi = query("SELECT jam_booking FROM reservasi WHERE tanggal_booking='$tgl' AND id_lapangan='$id_lapangan' AND status='lunas'");
 foreach ($reservasi as $r) {
     $booking_ranges = explode(',', $r['jam_booking']);
     foreach ($booking_ranges as $range) {

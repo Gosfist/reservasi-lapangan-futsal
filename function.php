@@ -37,6 +37,46 @@ function tambahMember($data)
   $password = $data["password_user"];
   $id_role = 3;
 
+  function editProfil($data) {
+  global $conn;
+
+  $id = $_SESSION['id_user'];
+  $nama = htmlspecialchars($data["nama_user"]);
+  $no_wa = htmlspecialchars($data["no_wa_user"]);
+  $email = htmlspecialchars($data["email_user"]);
+
+  $query = "UPDATE user SET 
+              nama_user = '$nama',
+              no_wa_user = '$no_wa',
+              email_user = '$email'
+            WHERE id_user = $id";
+
+  mysqli_query($conn, $query);
+
+  return mysqli_affected_rows($conn);
+}
+
+function updateProfilUser($data) {
+  global $conn;
+
+  $id = $_SESSION['id_user'];
+  $nama = htmlspecialchars($data['nama_user']);
+  $email = htmlspecialchars($data['email']);
+  $no_wa = htmlspecialchars($data['no_wa_user']);
+  $password = htmlspecialchars($data['password_user']);
+
+  $query = "UPDATE user SET 
+              nama_user = '$nama',
+              email = '$email',
+              no_wa_user = '$no_wa',
+              password_user = '$password'
+            WHERE id_user = $id";
+
+  mysqli_query($conn, $query);
+
+  return mysqli_affected_rows($conn);
+}
+
   // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
@@ -60,7 +100,7 @@ function daftar($data)
   $nama = htmlspecialchars($data["nama"]);
   $email = strtolower($data["email"]);
   $no_wa = htmlspecialchars($data["hp"]);
-  $password = $data["password"];
+  $password = $data["password_user"];
   $id_role = 3; // Role member biasa
 
   // Cek apakah email sudah dipakai
@@ -487,3 +527,4 @@ function uploadBukti()
   move_uploaded_file($tmpName, '../img/Bukti/' . $namaFileBaru);
   return $namaFileBaru;
 }
+

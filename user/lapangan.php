@@ -12,37 +12,39 @@ foreach ($jadwalQuery as $row) {
   $jadwal[$row['hari_buka']] = $row;
 }
 
+// Proses simpan (bisa untuk edit lapangan atau profil)
 if (isset($_POST["simpan"])) {
-  if (edit($_POST) > 0) {
-    echo "<script>
-          alert('Berhasil Diubah');
-          </script>";
-  } else {
-    echo "<script>
-          alert('Gagal Diubah');
-          </script>";
-  }
+  if (isset($_POST["tipe_form"])) {
+    if ($_POST["tipe_form"] === "lapangan") {
+      if (edit($_POST) > 0) {
+        echo "<script>alert('Lapangan berhasil diubah');</script>";
+      } else {
+        echo "<script>alert('Gagal mengubah lapangan');</script>";
+      }
+    } elseif ($_POST["tipe_form"] === "profil") {
+      if (editProfil($_POST) > 0) {
+        echo "<script>alert('Profil berhasil diperbarui'); location.href='lapangan.php';</script>";
+      } else {
+        echo "<script>alert('Gagal memperbarui profil');</script>";
+      }
+    }
+}
 }
 
-
-
+// Proses pemesanan
 if (isset($_POST["pesan"])) {
-
   if (pesan($_POST) > 0) {
-    echo "<script>
-          alert('Berhasil DiPesan');
-          document.location.href = 'lapangan.php';
-          </script>";
+    echo "<script>alert('Berhasil DiPesan'); document.location.href = 'lapangan.php';</script>";
   } else {
-    echo "<script>
-          alert('Jadwal Sudah Di Booking');
-          </script>";
+    echo "<script>alert('Jadwal Sudah Di Booking');</script>";
   }
 }
 
-function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
-{
-  // Format jam buka & tutup ke integer jam saja
+
+
+
+// Fungsi untuk membuat checkbox jam
+function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id) {
   $start = (int)substr($jam_buka, 0, 2);
   $end = (int)substr($jam_tutup, 0, 2);
 
@@ -59,8 +61,8 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
   $html .= '</div>';
   return $html;
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +89,6 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
               </div>
               <div class="col-8">
                 <h5 class="mb-3"><?= $profil["212279_nama_lengkap"]; ?></h5>
-                <p><?= $profil["212279_jenis_kelamin"]; ?></p>
                 <p><?= $profil["212279_email"]; ?></p>
                 <p><?= $profil["212279_no_handphone"]; ?></p>
                 <p><?= $profil["212279_alamat"]; ?></p>
@@ -121,13 +122,6 @@ function generateCheckboxJam($jam_buka, $jam_tutup, $hari, $lapangan_id)
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label">Nama Lengkap</label>
                   <input type="text" name="212279_nama_lengkap" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_nama_lengkap"]; ?>">
-                </div>
-                <div class="mb-3">
-                  <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                  <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                    <option value="Laki-laki" <?php if ($profil['212279_jenis_kelamin'] == 'Laki-laki') echo 'selected'; ?>>Laki-laki</option>
-                    <option value="Perempuan" <?php if ($profil['212279_jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
-                  </select>
                 </div>
               </div>
               <div class="col">

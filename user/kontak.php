@@ -57,7 +57,7 @@ if (isset($_POST['kirim_wa'])) {
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>wisnu@gmsil.com</p>
+                <p>bascmpsc@gmail.com</p>
               </div>
             </div><!-- End Info Item -->
 

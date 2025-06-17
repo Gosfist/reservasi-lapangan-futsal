@@ -48,6 +48,12 @@ if (isset($_POST["edit"])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link href="../assets/img/logo.png" rel="icon">
 
+  <style>
+    .btn-sm {
+      min-width: 60px;
+    }
+  </style>
+
   <title>Home</title>
 </head>
 
@@ -77,7 +83,7 @@ if (isset($_POST["edit"])) {
       <div class="container">
         <h3 class="mt-4">Data Member</h3>
         <hr>
-        <button class="btn btn-inti mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal">Tambah</button>
+        <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal">Tambah</button>
         <!-- Modal Tambah -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
@@ -121,14 +127,14 @@ if (isset($_POST["edit"])) {
           </div>
         </div>
         <div class="table-responsive">
-          <table class="table table-hover ">
+          <table class="table table-hover text-center">
             <thead class="table-inti">
               <tr>
-                <th style="width:5%;" scope="col">No</th>
-                <th style="width:25%;" scope="col">Nama</th>
-                <th style="width:25%;" scope="col">Email</th>
-                <th style="width:25%;" scope="col">No Hp</th>
-                <th style="width:20%;" scope="col">Aksi</th>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Email</th>
+                <th scope="col">No Hp</th>
+                <th style="width:15%;" scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -141,8 +147,8 @@ if (isset($_POST["edit"])) {
                   <td><?= $row["no_wa_user"]; ?></td>
                   <td>
 
-                    <button class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_user"]; ?>">Edit</button>
-                    <a href="./controller/hapusMember.php?id=<?= $row["id_user"]; ?>" class="btn btn-danger">Hapus</a>
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_user"]; ?>">Edit</button>
+                    <a href="./controller/hapusMember.php?id=<?= $row["id_user"]; ?>" class="btn btn-danger btn-sm">Hapus</a>
                   </td>
 
                   <!-- Edit Modal -->

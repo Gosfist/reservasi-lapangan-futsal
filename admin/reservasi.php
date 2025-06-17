@@ -63,21 +63,22 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
         <!-- Konten -->
         <h3 class="mt-4">Data Reservasi</h3>
         <hr>
-        <a href="export.php" class="btn btn-inti mb-2 btn-sm">Download</a>
+        <a href="export.php" class="btn btn-success mb-2">Download</a>
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover text-center">
             <thead class="table-inti">
-              <tr>
+              <tr class="align-middle">
                 <th scope="col">No</th>
-                <th scope="col">Nama Customer</th>
-                <th scope="col">Lapangan</th>
-                <th scope="col">Tgl Booking</th>
-                <th scope="col">Jam Booking</th>
-                <th scope="col">Lama Sewa</th>
+                <th scope="col">Nama<br>Customer</th>
+                <th scope="col">Nama<br>Lapangan</th>
+                <th scope="col">Tanggal<br>Dipesan</th>
+                <th scope="col text-center">Tanggal<br> Booking</th>
+                <th scope="col">Jam<br> Booking</th>
+                <th scope="col">Lama<br>Sewa</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Bukti</th>
                 <th scope="col">Status</th>
-                <th scope="col">Konfir</th>
+                <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -88,6 +89,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                   <td><?= $i--; ?></td>
                   <td><?= $row["nama_user"]; ?></td>
                   <td><?= $row["nama_lapangan"]; ?></td>
+                  <td><?= $row["tanggal_dipesan"]; ?></td>
                   <td><?= $row["tanggal_booking"]; ?></td>
                   <td><?= formatJamBooking($row["jam_booking"]); ?></td>
                   <td><?php
@@ -104,11 +106,11 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                     if ($row["status"] == "lunas") {
                       echo '
                       <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $id_reservasi . '">Detail</button>
-                      <button type="button" class="btn btn-inti btn-sm" data-bs-toggle="modal" data-bs-target="#editreservasi' . $id_reservasi . '">Edit</button>';
+                      <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">Hapus</button>';
                     } else {
                       // tampilkan tombol Detail
                       echo '
-                      <button type="button" class="btn btn-inti btn-sm" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">Konfir</button>
+                      <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">Konfir</button>
                       <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">Hapus</button>';
                     }
                     ?>
@@ -143,7 +145,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="mb-3">
-                        <img src="../img/Bukti/<?= $row["bukti_pembayaran"]; ?>" alt="gambar lapangan" class="img-fluid">
+                        <img src="../img/Bukti/<?= $row["bukti_pembayaran"]; ?>" alt="gambar bukti pembayaran" class="img-fluid">
                       </div>
                       <input type="hidden" name="id_reservasi" value="<?= $row["id_reservasi"]; ?>">
                       <div class="modal-body">
@@ -184,8 +186,6 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                     </div>
                   </div>
                 </div>
-
-                 
 
                 <!-- Modal Hapus -->
                 <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">

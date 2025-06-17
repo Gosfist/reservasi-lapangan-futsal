@@ -35,6 +35,19 @@ if (isset($_POST["edit"])) {
   }
 }
 
+if (isset($_POST["editprofile"])) {
+  if (editprofile($_POST) > 0) {
+    echo "<script>
+  alert('Berhasil Di Edit');
+  window.location.href = 'lapangan.php';
+</script>";
+  } else {
+    echo "<script>
+  alert('Gagal Di Edit');
+</script>";
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +61,12 @@ if (isset($_POST["edit"])) {
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link href="../assets/img/logo.png" rel="icon">
+
+  <style>
+    .btn-sm {
+      min-width: 60px;
+    }
+  </style>
 
   <title>Home</title>
 </head>
@@ -78,7 +97,7 @@ if (isset($_POST["edit"])) {
         <!-- Konten -->
         <h3 class="mt-4">Data Lapangan</h3>
         <hr>
-        <button class="btn btn-inti mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal1">Tambah</button>
+        <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal1">Tambah</button>
         <!-- Modal Tambah -->
         <div class="modal fade" id="tambahModal1" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
@@ -119,14 +138,14 @@ if (isset($_POST["edit"])) {
         </div>
         <!-- End Modal Tambah -->
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover text-center">
             <thead class="table-inti">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nama Lapangan</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Foto</th>
-                <th scope="col">Aksi</th>
+                <th style="width:15%;" scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -139,8 +158,8 @@ if (isset($_POST["edit"])) {
                   <td><?= $row["harga_lapangan"]; ?></td>
                   <td><img src="../img/Lapangan/<?= $row["foto_lapangan"]; ?>" width="50" height="50"></td>
                   <td>
-                    <button class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_lapangan"]; ?>">Edit</button>
-                    <a href="./controller/hapusLpg.php?id=<?= $row["id_lapangan"]; ?>" class="btn btn-danger">Hapus</a>
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $row["id_lapangan"]; ?>">Edit</button>
+                    <a href="./controller/hapusLpg.php?id=<?= $row["id_lapangan"]; ?>" class="btn btn-danger btn-sm">Hapus</a>
                   </td>
                   <!-- Edit Modal -->
                   <div class="modal fade" id="editModal<?= $row["id_lapangan"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">

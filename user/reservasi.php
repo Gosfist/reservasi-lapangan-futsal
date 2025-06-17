@@ -6,7 +6,7 @@ $id_user = $_SESSION['id_user'];
 
 if (!isset($_SESSION['role'])) {
   header("location:../index.php");
-} 
+}
 
 $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
                     FROM reservasi 
@@ -153,14 +153,15 @@ if (isset($_POST["konfirmasibayar"])) {
         <div class="table-responsive">
           <table class="table table-responsive my-3">
             <thead>
-              <tr>
+              <tr class="align-middle text-center">
                 <th scope="col">No</th>
                 <th scope="col">Nama Lapangan</th>
-                <th scope="col">Tgl Booking</th>
-                <th scope="col">jam Booking</th>
+                <th scope="col">Tgl Dipesan</th>
+                <th scope="col text-center">Tgl Booking</th>
+                <th scope="col">Jam Booking</th>
                 <th scope="col">Lama Sewa</th>
                 <th scope="col">Harga</th>
-                <th scope="col">Konfirmasi</th>
+                <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody id="content">
@@ -168,21 +169,34 @@ if (isset($_POST["konfirmasibayar"])) {
               <?php foreach ($reservasi as $row) : ?>
                 <tr>
                   <th scope="row"><?= $i++; ?></th>
-                  <td><?= $row["nama_lapangan"]; ?></td>
-                  <td><?= $row["tanggal_booking"]; ?></td>
-                  <td><?= formatJamBooking($row["jam_booking"]); ?></td>
-                  <td><?php
-                      $toarray = explode(',', $row["jam_booking"]);
-                      $lamasewa = count($toarray);
-                      echo "$lamasewa Jam" ?>
+                  <td class="align-middle text-center"><?= $row["nama_lapangan"]; ?></td>
+                  <td class="align-middle text-center"><?= $row["tanggal_dipesan"]; ?></td>
+                  <td class="align-middle text-center"><?= $row["tanggal_booking"]; ?></td>
+                  <td class="align-middle text-center"><?= formatJamBooking($row["jam_booking"]); ?></td>
+                  <td class="align-middle text-center"><?php
+                                                        $toarray = explode(',', $row["jam_booking"]);
+                                                        $lamasewa = count($toarray);
+                                                        echo "$lamasewa Jam" ?>
                   </td>
-                  <td><?= $row["harga"]; ?></td>
-                  <td>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bayarreservasi<?= $row["id_reservasi"]; ?>">Bayar</button>
-                    <button type="submit" class="btn btn-danger" name="cancel" id="cancel">Cancel</button>
-                    <div id="bayarModal"></div>
-                    <!-- Edit Modal -->
-                    <div class="modal fade" id="bayarreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                  <td class="align-middle text-center"><?= $row["harga"]; ?></td>
+                  <td class="align-middle text-center">
+                    <?php
+                    $id_reservasi = $row["id_reservasi"];
+                    if ($row["status"] == "lunas") {
+                      echo '
+                      <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $row["id_reservasi"] . '">Detail</button>';
+                    } else {
+                      // tampilkan tombol Detail
+                      echo '
+                      <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#bayarreservasi' . $row["id_reservasi"] . '">Bayar</button>
+                       <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal' . $row["id_reservasi"] . '">Cancel</button>';
+                    }
+                    ?>
+
+                    
+                  </td>
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="bayarreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -234,8 +248,76 @@ if (isset($_POST["konfirmasibayar"])) {
                     </div>
                     <div id="detailModal"></div>
 
-                    <div id="hapusModal"></div>
-                  <?php endforeach; ?>
+                    <!-- Modal Hapus -->
+                    <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Anda yakin ingin membatalkan pesanan ini?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <a href="./controller/batalkanreservasi.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Iya Batalkan</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="detailreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="tambahModalLabel">Detail Id Reservasi: <?= $row["id_reservasi"]; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="mb-3">
+                            <img src="../img/Bukti/<?= $row["bukti_pembayaran"]; ?>" alt="gambar bukti pembayaran" class="img-fluid">
+                          </div>
+                          <input type="hidden" name="id_reservasi" value="<?= $row["id_reservasi"]; ?>">
+                          <div class="modal-body">
+                            <div class="row justify-content-center align-items-center">
+
+                              <div class="col">
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Nama Customer</label>
+                                  <input type="text" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["nama_user"]; ?>" disabled>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Tanggal Booking</label>
+                                  <input type="date" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["tanggal_booking"]; ?>" disabled>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Lama Main</label>
+                                  <input type="text" name="jam_mulai" class="form-control" id="exampleInputPassword1" value="<?php $toarray = explode(',', $row["jam_booking"]);
+                                                                                                                              $lamasewa = count($toarray);
+                                                                                                                              echo "$lamasewa Jam" ?>" disabled>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Nama Lapangan</label>
+                                  <input type="text" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["nama_lapangan"]; ?>" disabled>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Jam Booking</label>
+                                  <input type="text" name="jam_habis" class="form-control" id="exampleInputPassword1" value="<?= formatJamBooking($row["jam_booking"]); ?>" disabled>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputPassword1" class="form-label">Harga</label>
+                                  <input type="number" name="212279_harga" class="form-control" id="exampleInputPassword1" value="<?= $row["harga"]; ?>" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                <?php endforeach; ?>
+
             </tbody>
           </table>
           <!-- Pagination -->

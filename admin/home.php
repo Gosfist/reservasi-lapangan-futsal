@@ -9,6 +9,9 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 
 $user = query("SELECT COUNT(id_role) AS jml_user FROM user WHERE id_role = 3")[0];
 $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
+$reservasi = query("SELECT COUNT(id_reservasi) AS jml_reservasi FROM reservasi WHERE status = 'lunas'")[0];
+$penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE status = 'lunas'")[0];
+
 
 ?>
 <!DOCTYPE html>
@@ -67,8 +70,8 @@ $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
           <div class="col-md-4 col-xl-3">
             <div class="card bg-c-green order-card">
               <div class="card-block">
-                <h6>Pesanan</h6>
-                <h2 class="text-right flex-center"><i class="fa fa-cart-plus me-3"></i><span><?= $pesanan["jml_sewa"]; ?></span></h2>
+                <h6>Reservasi</h6>
+                <h2 class="text-right flex-center"><i class="fa fa-cart-plus me-3"></i><span><?= $reservasi["jml_reservasi"]; ?></span></h2>
               </div>
             </div>
           </div>
@@ -86,7 +89,7 @@ $lapangan = query("SELECT COUNT(id_lapangan) AS jml_lapangan FROM lapangan")[0];
             <div class="card bg-c-pink order-card">
               <div class="card-block">
                 <h6>Penjualan</h6>
-                <h3 class="text-right flex-center"><i class="fa fa-money-bills me-3"></i><span>Rp 500.000</span></h2>
+                <h3 class="text-right flex-center"><i class="fa fa-money-bills me-3"></i><?= $penghasilan["jml_penghasilan"]; ?></h2>
               </div>
             </div>
           </div>

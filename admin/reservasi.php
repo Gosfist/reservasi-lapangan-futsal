@@ -28,6 +28,12 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link href="../assets/img/logo.png" rel="icon">
 
+  <style>
+    .btn-sm {
+      min-width: 60px;
+    }
+  </style>
+
   <title>Homes</title>
 </head>
 
@@ -57,7 +63,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
         <!-- Konten -->
         <h3 class="mt-4">Data Reservasi</h3>
         <hr>
-        <a href="export.php" class="btn btn-inti mb-2">Download</a>
+        <a href="export.php" class="btn btn-inti mb-2 btn-sm">Download</a>
         <div class="table-responsive">
           <table class="table table-hover">
             <thead class="table-inti">
@@ -97,12 +103,13 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                     $id_reservasi = $row["id_reservasi"];
                     if ($row["status"] == "lunas") {
                       echo '
-                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $id_reservasi . '">Detail</button>';
+                      <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $id_reservasi . '">Detail</button>
+                      <button type="button" class="btn btn-inti btn-sm" data-bs-toggle="modal" data-bs-target="#editreservasi' . $id_reservasi . '">Edit</button>';
                     } else {
                       // tampilkan tombol Detail
                       echo '
-                      <button type="button" class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">Konfir</button>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">Hapus</button>';
+                      <button type="button" class="btn btn-inti btn-sm" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">Konfir</button>
+                      <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">Hapus</button>';
                     }
                     ?>
                   </td>
@@ -141,7 +148,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                       <input type="hidden" name="id_reservasi" value="<?= $row["id_reservasi"]; ?>">
                       <div class="modal-body">
                         <div class="row justify-content-center align-items-center">
-                          
+
                           <div class="col">
                             <div class="mb-3">
                               <label for="exampleInputPassword1" class="form-label">Nama Customer</label>
@@ -159,7 +166,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                             </div>
                           </div>
                           <div class="col">
-                          <div class="mb-3">
+                            <div class="mb-3">
                               <label for="exampleInputPassword1" class="form-label">Nama Lapangan</label>
                               <input type="text" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["nama_lapangan"]; ?>" disabled>
                             </div>
@@ -175,27 +182,31 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    <!-- Modal Hapus -->
-                    <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>Anda yakin ingin menghapus pesanan ini?</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <a href="./controller/hapusPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Hapus</a>
-                          </div>
-                        </div>
+                 
+
+                <!-- Modal Hapus -->
+                <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Anda yakin ingin menghapus pesanan ini?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <a href="./controller/hapusPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Hapus</a>
                       </div>
                     </div>
-                    <!-- End Modal Konfirmasi -->
-                  <?php endforeach; ?>
+                  </div>
+                </div>
+                <!-- End Modal Konfirmasi -->
+              <?php endforeach; ?>
             </tbody>
           </table>
         </div>

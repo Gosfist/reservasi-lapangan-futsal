@@ -336,7 +336,7 @@ function hapusReservasi($id_reservasi)
     $nama_file_foto = $lapangan[0]['bukti_pembayaran'];
 
     $project_root = __DIR__;
-    $path_ke_file = $project_root . '/img/Bukti Pembayaran/' . $nama_file_foto;
+    $path_ke_file = $project_root . '/img/Bukti/' . $nama_file_foto;
     $path_bersih = str_replace('\\', '/', $path_ke_file);
 
     if (file_exists($path_bersih)) {

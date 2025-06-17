@@ -336,7 +336,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
       <div class="col-md-4 d-flex flex-column align-items-center">
         <h5 class="fw-semibold mb-3">Syarat & Ketentuan</h5>
         <ul class="list-unstyled fs-6">
-          <li><a href="templates/syaratKetentuan.php" class="text-decoration-none text-muted">Lihat Syarat & Ketentuan</a></li>
+          <li><a href="user/syaratKetentuan.php" class="text-decoration-none text-muted">Lihat Syarat & Ketentuan</a></li>
         </ul>
       </div>
 

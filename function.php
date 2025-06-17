@@ -363,7 +363,7 @@ function pesan($data)
   $toarray = explode(',', $jamMulai);
   $hargatotal = count($toarray) * $harga;
 
-  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$hargatotal','kosong','belum lunas')";
+  $query = "INSERT INTO reservasi VALUES ('', '$lapangan', '$user','$tglMain','$jamMulai','$hargatotal','','belum lunas')";
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
@@ -429,3 +429,61 @@ function formatJamBooking($dbString)
     // 6. Gabungkan semua bagian menjadi satu string akhir
     return implode(', ', $outputParts);
 } 
+
+function konfirmasibayar($data) {
+  global $conn;
+  $id_reservasi = $data["id_reservasi"];
+  $upload = uploadBukti();
+  if (!$upload) {
+    return false;
+  }
+
+  $query = "UPDATE reservasi SET 
+  bukti_pembayaran = '$upload' 
+  WHERE id_reservasi = '$id_reservasi'";
+
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
+}
+
+function uploadBukti()
+{
+  $namaFile = $_FILES['bukti_pembayaran']['name'];
+  $ukuranFile = $_FILES['bukti_pembayaran']['size'];
+  $error = $_FILES['bukti_pembayaran']['error'];
+  $tmpName = $_FILES['bukti_pembayaran']['tmp_name'];
+
+  // Cek apakah tidak ada gambar yang di upload
+  if ($error === 4) {
+    echo "<script>
+    alert('Pilih gambar terlebih dahulu');
+    </script>";
+    return false;
+  }
+
+  // Cek apakah gambar
+  $extensiValid = ['jpg', 'png', 'jpeg'];
+  $extensiGambar = explode('.', $namaFile);
+  $extensiGambar = strtolower(end($extensiGambar));
+
+  if (!in_array($extensiGambar, $extensiValid)) {
+    echo "<script>
+    alert('Yang anda upload bukan gambar!');
+    </script>";
+    return false;
+  }
+
+  if ($ukuranFile > 1000000) {
+    echo "<script>
+    alert('Ukuran Gambar Terlalu Besar!');
+    </script>";
+    return false;
+  }
+
+  $namaFileBaru = uniqid();
+  $namaFileBaru .= '.';
+  $namaFileBaru .= $extensiGambar;
+  // Move File
+  move_uploaded_file($tmpName, '../img/Bukti/' . $namaFileBaru);
+  return $namaFileBaru;
+}

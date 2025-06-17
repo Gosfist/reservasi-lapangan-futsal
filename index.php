@@ -324,15 +324,11 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
             <div class="col-6 col-lg-4">
               <ul>
                 <li><a href="#">Beranda</a></li>
-                <li><a href="#">Lapangan</a></li>
-                <li><a href="#">Membership</a></li>
-              </ul>
-            </div>
-            <div class="col-6 col-lg-4">
-              <ul>
-                <li><a href="#">Tournament</a></li>
-                <li><a href="#">Promo</a></li>
-                <li><a href="#">Kontak</a></li>
+                <li><a href="user/lapangan.php">Lapangan</a></li>
+                <li><a href="user/kontak.php">Kontak</a></li>
+                <?php if (isset($_SESSION['id_user'])): ?>
+                  <li><a href="user/reservasi.php">Reservasi</a></li>
+                <?php endif; ?>
               </ul>
             </div>
           </div>

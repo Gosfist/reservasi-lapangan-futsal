@@ -447,7 +447,8 @@ function konfirmasibayar($data) {
   }
 
   $query = "UPDATE reservasi SET 
-  bukti_pembayaran = '$upload' 
+  bukti_pembayaran = '$upload',
+  status = 'proses'  
   WHERE id_reservasi = '$id_reservasi'";
 
   mysqli_query($conn, $query);

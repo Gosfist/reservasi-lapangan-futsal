@@ -283,7 +283,6 @@ $lapangan = mysqli_fetch_all($query, MYSQLI_ASSOC);
               <div class="course-item">
                 <img src="img/lapangan/<?= !empty($row["foto_lapangan"]) ? $row["foto_lapangan"] : 'default.jpg'; ?>" class="img-fluid" alt="...">
                 <div class="course-content">
-                  <p class="category">Lapangan</p>
                 </div>
                 <div class="p-3 text-content">
                   <h3><a href="user/lapangan.php"><?= $row["nama_lapangan"]; ?></a></h3>

@@ -1,12 +1,12 @@
 <?php
 session_start();
 require "../function.php";
-require "../session.php";
 
 $id_user = $_SESSION['id_user'];
-if ($role !== 'SuperAdmin' && $role !== 'Admin') {
+
+if (!isset($_SESSION['role'])) {
   header("location:../index.php");
-}
+} 
 
 $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
                     FROM reservasi 

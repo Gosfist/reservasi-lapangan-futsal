@@ -37,6 +37,13 @@ function tambahMember($data)
   $password = $data["password_user"];
   $id_role = 3;
 
+  // email tidak boleh sama
+  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cek) > 0) {
+    echo "<script>alert('Email sudah digunakan, gunakan email lain');</script>";
+    return 0;
+  }
+
   // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>

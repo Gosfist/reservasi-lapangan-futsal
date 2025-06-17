@@ -5,7 +5,7 @@ if (isset($_POST["daftar"])) {
   $email = $_POST["email"];
   $hp = $_POST["hp"];
 
-  // Validasi email
+  // Validasi email format
   if (!preg_match("/@gmail\.com$/", $email)) {
     echo "<script>
       alert('Email harus menggunakan @gmail.com');
@@ -23,15 +23,22 @@ if (isset($_POST["daftar"])) {
     exit;
   }
 
-  // Jika semua valid, lanjut daftar
+  // ❗ CEK EMAIL SUDAH TERDAFTAR ❗
+  $cekEmail = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cekEmail) > 0) {
+    echo "<script>
+      alert('Email sudah terdaftar. Silakan gunakan email lain.');
+      window.location.href = 'daftar.php';
+    </script>";
+    exit;
+  }
+
+  // Jika valid semua, jalankan fungsi daftar
   if (daftar($_POST) > 0) {
     echo "<div class='alert alert-success'>Berhasil mendaftar, silakan login.</div>
-            <meta http-equiv='refresh' content='2; url= ../login.php'/>  ";
+          <meta http-equiv='refresh' content='2; url= ../login.php'/>";
   }
 }
-
-?>
-
 ?>
 
 
@@ -47,6 +54,7 @@ if (isset($_POST["daftar"])) {
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://unpkg.com/feather-icons"></script>
+  <link href="../assets/img/logo.png" rel="icon">
  
 </head>
 

@@ -5,6 +5,14 @@ require "function.php";
 $query = mysqli_query($conn, "SELECT * FROM lapangan");
 $lapangan = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
+$query = mysqli_query($conn, "SELECT COUNT(*) AS total_member FROM user"); // atau ganti 'user' jadi 'member' jika nama tabelmu beda
+$data = mysqli_fetch_assoc($query);
+$jumlah_member = $data['total_member'];
+
+$queryLapangan = mysqli_query($conn, "SELECT COUNT(*) AS total_lapangan FROM lapangan");
+$dataLapangan = mysqli_fetch_assoc($queryLapangan);
+$jumlah_lapangan = $dataLapangan['total_lapangan'];
+
 
 ?>
 <!DOCTYPE html>
@@ -223,40 +231,29 @@ $lapangan = mysqli_fetch_all($query, MYSQLI_ASSOC);
     </section><!-- /About Section -->
 
     <!-- Counts Section -->
-    <section id="counts" class="section counts light-background">
+    <section id="counts" class="section counts light-background"><br>
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-4">
 
+        <div class="row justify-content-center">
           <div class="col-6 col-lg-3 col-md-6">
-            <div class="shadow rounded stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1232" data-purecounter-duration="1" class="purecounter"></span>
+            <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
+              <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_member; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
               <p>Pelanggan</p>
-            </div>
-          </div><!-- End Stats Item -->
+          </div>
+        </div><!-- End Stats Item -->
+      
 
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="shadow rounded stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Lapangan</p>
-            </div>
-          </div><!-- End Stats Item -->
+        <div class="col-6 col-lg-3 col-md-6">
+          <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
+            <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_lapangan; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
+            <p>Lapangan</p>
+          </div>
+        </div><!-- End Stats Item -->
 
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="shadow rounded stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Tournament</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="shadow rounded stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Membership</p>
-            </div>
-          </div><!-- End Stats Item -->
-
+          </div>
         </div>
 
       </div>

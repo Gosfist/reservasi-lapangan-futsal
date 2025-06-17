@@ -161,6 +161,7 @@ if (isset($_POST["konfirmasibayar"])) {
                 <th scope="col">Jam Booking</th>
                 <th scope="col">Lama Sewa</th>
                 <th scope="col">Harga</th>
+                <th scope="col">Status</th>
                 <th scope="col">Aksi</th>
               </tr>
             </thead>
@@ -179,10 +180,11 @@ if (isset($_POST["konfirmasibayar"])) {
                                                         echo "$lamasewa Jam" ?>
                   </td>
                   <td class="align-middle text-center"><?= $row["harga"]; ?></td>
+                  <td class="align-middle text-center"><?= $row["status"]; ?></td>
                   <td class="align-middle text-center">
                     <?php
                     $id_reservasi = $row["id_reservasi"];
-                    if ($row["status"] == "lunas") {
+                    if ($row["status"] == "lunas" || $row["status"] == "proses") {
                       echo '
                       <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $row["id_reservasi"] . '">Detail</button>';
                     } else {
@@ -192,8 +194,6 @@ if (isset($_POST["konfirmasibayar"])) {
                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal' . $row["id_reservasi"] . '">Cancel</button>';
                     }
                     ?>
-
-                    
                   </td>
                   <!-- Edit Modal -->
                   <div class="modal fade" id="bayarreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">

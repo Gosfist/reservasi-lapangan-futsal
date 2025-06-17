@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Jun 2025 pada 02.30
+-- Waktu pembuatan: 17 Jun 2025 pada 07.41
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.0.30
 
@@ -39,7 +39,7 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id_jadwal`, `hari_buka`, `jam_buka`, `jam_tutup`) VALUES
-(1, 'Senin', '10:00:00', '21:00:00'),
+(1, 'Senin', '06:00:00', '21:00:00'),
 (2, 'Selasa', '10:00:00', '21:00:00'),
 (3, 'Rabu', '09:00:00', '21:00:00'),
 (4, 'Kamis', '09:00:00', '21:00:00'),
@@ -76,22 +76,22 @@ INSERT INTO `lapangan` (`id_lapangan`, `nama_lapangan`, `harga_lapangan`, `foto_
 
 CREATE TABLE `reservasi` (
   `id_reservasi` int(11) NOT NULL,
-  `id_jadwal` int(11) NOT NULL,
   `id_lapangan` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `tanggal_booking` date NOT NULL,
   `jam_booking` text NOT NULL,
   `harga` int(11) NOT NULL,
   `bukti_pembayaran` text NOT NULL,
-  `konfirmasi` enum('belum lunas','lunas') NOT NULL
+  `status` enum('belum lunas','lunas') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `reservasi`
 --
 
-INSERT INTO `reservasi` (`id_reservasi`, `id_jadwal`, `id_lapangan`, `id_user`, `tanggal_booking`, `jam_booking`, `harga`, `bukti_pembayaran`, `konfirmasi`) VALUES
-(4, 5, 15, 9, '2025-06-04', '9,10', 10000, 'bukti.jpg', 'lunas');
+INSERT INTO `reservasi` (`id_reservasi`, `id_lapangan`, `id_user`, `tanggal_booking`, `jam_booking`, `harga`, `bukti_pembayaran`, `status`) VALUES
+(31, 15, 2, '2025-06-16', '6-7,7-8', 200000, '6850f5bc94acc.jpg', 'lunas'),
+(37, 44, 2, '2025-06-17', '10-11', 100000, '', 'belum lunas');
 
 -- --------------------------------------------------------
 
@@ -133,10 +133,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `id_role`, `email_user`, `password_user`, `nama_user`, `no_wa_user`) VALUES
-(2, 1, 'wisnu@gmail.com', '321', 'wisnu suro pamungkas', '083110361634'),
+(2, 1, 'wisnu@gmail.com', '123', 'wisnu suro pamungkas', '083110361634'),
 (7, 2, 'junaidi@gmail.com', '123', 'junaidi', '0'),
 (9, 3, 'member1@gmail.com', '123', 'member1', '0'),
-(10, 2, 'rizki@gmail.com', '123', 'riziki', '1');
+(10, 2, 'rizki@gmail.com', '123', 'riziki', '1'),
+(12, 3, 'member2@gmail.com', '123', 'member2', '1');
 
 --
 -- Indexes for dumped tables
@@ -159,7 +160,6 @@ ALTER TABLE `lapangan`
 --
 ALTER TABLE `reservasi`
   ADD PRIMARY KEY (`id_reservasi`),
-  ADD KEY `id_jadwal` (`id_jadwal`),
   ADD KEY `id_pelanggan` (`id_lapangan`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_lapangan` (`id_lapangan`);
@@ -191,13 +191,13 @@ ALTER TABLE `lapangan`
 -- AUTO_INCREMENT untuk tabel `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -208,8 +208,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `reservasi`
   ADD CONSTRAINT `reservasi_ibfk_1` FOREIGN KEY (`id_lapangan`) REFERENCES `lapangan` (`id_lapangan`),
-  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
-  ADD CONSTRAINT `reservasi_ibfk_3` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal` (`id_jadwal`);
+  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Ketidakleluasaan untuk tabel `user`

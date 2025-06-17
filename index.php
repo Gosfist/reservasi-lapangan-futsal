@@ -2,6 +2,10 @@
 session_start();
 require "function.php";
 
+$query = mysqli_query($conn, "SELECT * FROM lapangan");
+$lapangan = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -277,13 +281,12 @@ require "function.php";
 
             <div class="col-6 col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
               <div class="course-item">
-                <img src="img/<?= $row["212279_foto"]; ?>" class="img-fluid" alt="...">
+                <img src="img/lapangan/<?= !empty($row["foto_lapangan"]) ? $row["foto_lapangan"] : 'default.jpg'; ?>" class="img-fluid" alt="...">
                 <div class="course-content">
                   <p class="category">Lapangan</p>
                 </div>
                 <div class="p-3 text-content">
-                  <h3><a href="course-details.html"><?= $row["212279_nama"]; ?></a></h3>
-                  <p class="description"><?= $row["212279_keterangan"]; ?></p>
+                  <h3><a href="user/lapangan.php"><?= $row["nama_lapangan"]; ?></a></h3>
                 </div>
               </div>
             </div>

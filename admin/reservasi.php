@@ -70,6 +70,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                 <th scope="col">Lama Sewa</th>
                 <th scope="col">Harga</th>
                 <th scope="col">Bukti</th>
+                <th scope="col">Status</th>
                 <th scope="col">Konfir</th>
               </tr>
             </thead>
@@ -89,22 +90,19 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                       echo "$lamasewa Jam" ?>
                   </td>
                   <td><?= $row["harga"]; ?></td>
-                  <td><img src="../img/Bukti Pembayaran/<?= $row["bukti_pembayaran"]; ?>" width="50" height="50"></td>
-
+                  <td><img src="../img/Bukti/<?= $row["bukti_pembayaran"]; ?>" width="50" height="50"></td>
+                  <td><?= $row["status"]; ?></td>
                   <td>
                     <?php
                     $id_reservasi = $row["id_reservasi"];
-                    if ($row["konfirmasi"] == "lunas") {
-                      echo $row["konfirmasi"];
+                    if ($row["status"] == "lunas") {
+                      echo '
+                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailreservasi' . $id_reservasi . '">Detail</button>';
                     } else {
                       // tampilkan tombol Detail
-                      echo ' <button type="button" class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">
-                    Konfir
-                  </button>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">
-                    Hapus
-                  </button>
-                  ';
+                      echo '
+                      <button type="button" class="btn btn-inti" data-bs-toggle="modal" data-bs-target="#konfirmasiModal' . $id_reservasi . '">Konfir</button>
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal' . $id_reservasi . '">Hapus</button>';
                     }
                     ?>
                   </td>
@@ -129,26 +127,75 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                 </div>
                 <!-- End Modal Konfirmasi -->
 
-                <!-- Modal Hapus -->
-                <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
+                <!-- Edit Modal -->
+                <div class="modal fade" id="detailreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
+                        <h5 class="modal-title" id="tambahModalLabel">Detail Id Reservasi: <?= $row["id_reservasi"]; ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body">
-                        <p>Anda yakin ingin menghapus pesanan ini?</p>
+                      <div class="mb-3">
+                        <img src="../img/Bukti/<?= $row["bukti_pembayaran"]; ?>" alt="gambar lapangan" class="img-fluid">
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <a href="./controller/hapusPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Hapus</a>
+                      <input type="hidden" name="id_reservasi" value="<?= $row["id_reservasi"]; ?>">
+                      <div class="modal-body">
+                        <div class="row justify-content-center align-items-center">
+                          
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Nama Customer</label>
+                              <input type="text" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["nama_user"]; ?>" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Tanggal Booking</label>
+                              <input type="date" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["tanggal_booking"]; ?>" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Lama Main</label>
+                              <input type="text" name="jam_mulai" class="form-control" id="exampleInputPassword1" value="<?php $toarray = explode(',', $row["jam_booking"]);
+                                                                                                                          $lamasewa = count($toarray);
+                                                                                                                          echo "$lamasewa Jam" ?>" disabled>
+                            </div>
+                          </div>
+                          <div class="col">
+                          <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Nama Lapangan</label>
+                              <input type="text" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["nama_lapangan"]; ?>" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Jam Booking</label>
+                              <input type="text" name="jam_habis" class="form-control" id="exampleInputPassword1" value="<?= formatJamBooking($row["jam_booking"]); ?>" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Harga</label>
+                              <input type="number" name="212279_harga" class="form-control" id="exampleInputPassword1" value="<?= $row["harga"]; ?>" disabled>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <!-- End Modal Konfirmasi -->
-              <?php endforeach; ?>
+
+                    <!-- Modal Hapus -->
+                    <div class="modal fade" id="hapusModal<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="hapusModalLabel">Hapus Pesanan <?= $row["nama_user"]; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Anda yakin ingin menghapus pesanan ini?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <a href="./controller/hapusPesan.php?id=<?= $row["id_reservasi"]; ?>" class="btn btn-danger">Hapus</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Modal Konfirmasi -->
+                  <?php endforeach; ?>
             </tbody>
           </table>
         </div>

@@ -14,31 +14,19 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                     JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan 
                     WHERE reservasi.id_user = $id_user ORDER BY id_reservasi DESC");
 
-// if (isset($_POST["simpan"])) {
-//   if (edit($_POST) > 0) {
-//     echo "<script>
-//           alert('Berhasil Diubah');
-//           </script>";
-//   } else {
-//     echo "<script>
-//           alert('Gagal Diubah');
-//           </script>";
-//   }
-// }
 
-
-// if (isset($_POST["bayar_212279"])) {
-//   if (bayar($_POST) > 0) {
-//     echo "<script>
-//           alert('Berhasil Di Bayar!');
-//           document.location.href = 'pesanan.php';
-//           </script>";
-//   } else {
-//     echo "<script>
-//           alert('Gagal Bayar!');
-//           </script>";
-//   }
-// }
+if (isset($_POST["konfirmasibayar"])) {
+  if (konfirmasibayar($_POST) > 0) {
+    echo "<script>
+          alert('Berhasil Di Bayar!');
+          document.location.href = 'reservasi.php';
+          </script>";
+  } else {
+    echo "<script>
+          alert('Gagal Bayar!');
+          </script>";
+  }
+}
 
 
 ?>
@@ -151,8 +139,8 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
         <div class="container">
           <div class="row d-flex justify-content-center text-center">
             <div class="col-lg-8">
-              <h1>Pesanan</h1>
-              <p class="mb-0">Pesanan anda</p>
+              <h1>Reservasi</h1>
+              <p class="mb-0">Reservasi anda</p>
             </div>
           </div>
         </div>
@@ -190,8 +178,60 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
                   </td>
                   <td><?= $row["harga"]; ?></td>
                   <td>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bayarreservasi<?= $row["id_reservasi"]; ?>">Bayar</button>
+                    <button type="submit" class="btn btn-danger" name="cancel" id="cancel">Cancel</button>
                     <div id="bayarModal"></div>
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="bayarreservasi<?= $row["id_reservasi"]; ?>" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="tambahModalLabel">Bayar <?= $row["nama_lapangan"]; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
+                          </div>
+                          <form action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id_reservasi" value="<?= $row["id_reservasi"]; ?>">
+                            <div class="modal-body">
+                              <div class="row justify-content-center align-items-center">
+                                <div class="col">
+                                  <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Tanggal Booking</label>
+                                    <input type="date" name="tgl_main" class="form-control" id="exampleInputPassword1" value="<?= $row["tanggal_booking"]; ?>" disabled>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Jam Booking</label>
+                                    <input type="text" name="jam_habis" class="form-control" id="exampleInputPassword1" value="<?= formatJamBooking($row["jam_booking"]); ?>" disabled>
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Lama Main</label>
+                                    <input type="text" name="jam_mulai" class="form-control" id="exampleInputPassword1" value="<?php $toarray = explode(',', $row["jam_booking"]);
+                                                                                                                                $lamasewa = count($toarray);
+                                                                                                                                echo "$lamasewa Jam" ?>" disabled>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Harga</label>
+                                    <input type="number" name="212279_harga" class="form-control" id="exampleInputPassword1" value="<?= $row["harga"]; ?>" disabled>
+                                  </div>
+                                </div>
+                                <div class="mt-3">
+                                  <label for="exampleInputPassword1" class="form-label">Transfer ke : BRI 0892322132 a/n Sport Center</label>
+                                </div>
+                                <div class="mt-3">
+                                  <label for="bukti_pembayaran" class="form-label">Upload Bukti</label>
+                                  <input type="file" name="bukti_pembayaran" class="form-control" id="bukti_pembayaran">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-success" name="konfirmasibayar">Bayar</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                     <div id="detailModal"></div>
 
                     <div id="hapusModal"></div>

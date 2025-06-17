@@ -40,7 +40,7 @@ if (isset($_POST["login"])) {
       } else if ($_SESSION["role"] == "Admin") {
         header("Location: admin/home.php");
       } else {
-        header("Location: user/lapangan.php");
+        header("Location: index.php");
       }
     }
     exit;

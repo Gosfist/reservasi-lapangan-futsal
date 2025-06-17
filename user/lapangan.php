@@ -28,7 +28,7 @@ if (isset($_POST["simpan"])) {
 
 if (isset($_POST["pesan"])) {
 
-  if (pesan($_POST) > 0) {
+  if (addreservasi($_POST) > 0) {
     echo "<script>
           alert('Berhasil DiPesan');
           document.location.href = 'lapangan.php';

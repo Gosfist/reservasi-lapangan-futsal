@@ -2,45 +2,18 @@
 require "../function.php";
 
 if (isset($_POST["daftar"])) {
-  $email = $_POST["email"];
-  $hp = $_POST["hp"];
-
-  // Validasi email format
-  if (!preg_match("/@gmail\.com$/", $email)) {
+  if (tambahMember($_POST) > 0) {
     echo "<script>
-      alert('Email harus menggunakan @gmail.com');
-      window.location.href = 'daftar.php';
+      alert('Registrasi berhasil');
+      window.location.href = '../login.php';
     </script>";
-    exit;
-  }
-
-  // Validasi nomor HP
-  if (!preg_match("/^[0-9]+$/", $hp)) {
+  } else {
     echo "<script>
-      alert('Nomor HP hanya boleh berisi angka');
-      window.location.href = 'daftar.php';
+      alert('Registrasi Gagal');
     </script>";
-    exit;
-  }
-
-  // ❗ CEK EMAIL SUDAH TERDAFTAR ❗
-  $cekEmail = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
-  if (mysqli_num_rows($cekEmail) > 0) {
-    echo "<script>
-      alert('Email sudah terdaftar. Silakan gunakan email lain.');
-      window.location.href = 'daftar.php';
-    </script>";
-    exit;
-  }
-
-  // Jika valid semua, jalankan fungsi daftar
-  if (daftar($_POST) > 0) {
-    echo "<div class='alert alert-success'>Berhasil mendaftar, silakan login.</div>
-          <meta http-equiv='refresh' content='2; url= ../login.php'/>";
   }
 }
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -68,20 +41,20 @@ if (isset($_POST["daftar"])) {
         <div class="row">
           <div class="col-lg-6 col-6 mb-2">
             <label for="nama" class="form-label">Nama Lengkap</label>
-            <input type="text" name="nama" class="form-control" id="nama" required>
+            <input type="text" name="nama_user" class="form-control" id="nama" required>
           </div>
           <div class="col-lg-6 col-6 mb-2">
-            <label for="hp" class="form-label">No Hp</label>
-            <input type="text" name="hp" class="form-control" id="hp" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <label for="hp" class="form-label">No Wa Aktif</label>
+            <input type="number" name="no_wa_user" class="form-control" id="hp" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
           </div>
           <div class="col-lg-6 col-6 mb-2">
             <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" id="email" required>
+            <input type="email" name="email_user" class="form-control" id="email" required>
           </div>
           
           <div class="col-lg-6 col-6 mb-2">
             <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="password" required>
+            <input type="password" name="password_user" class="form-control" id="password" required>
           </div>
 
           <div class="col-12 my-2 text-center">

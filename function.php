@@ -9,7 +9,6 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-// read (memanggil data)
 function query($data)
 {
   global $conn;
@@ -27,24 +26,16 @@ function query($data)
   return $rows;
 }
 
-function tambahMember($data)
+// user
+function editUser($data)
 {
   global $conn;
-
-  $nama = htmlspecialchars($data["nama_user"]);
-  $email = htmlspecialchars($data["email_user"]);
-  $no_wa = htmlspecialchars($data["no_wa_user"]);
+  $id_user = $data["id_user"];
+  $email = $data["email_user"];
   $password = $data["password_user"];
-  $id_role = 3;
+  $nama = $data["nama_user"];
+  $no_wa = $data["no_wa_user"];
 
-  // email tidak boleh sama
-  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
-  if (mysqli_num_rows($cek) > 0) {
-    echo "<script>alert('Email sudah digunakan, gunakan email lain');</script>";
-    return 0;
-  }
-
-  // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -53,33 +44,21 @@ function tambahMember($data)
     exit;
   }
 
-  $query = "INSERT INTO user (nama_user, email_user, no_wa_user, password_user, id_role)
-            VALUES ('$nama', '$email', '$no_wa', '$password', $id_role)";
-  mysqli_query($conn, $query);
+  $query = "UPDATE user SET 
+    email_user = '$email',
+    password_user = '$password',
+    nama_user = '$nama',
+    no_wa_user  = '$no_wa' 
+    WHERE id_user = '$id_user'";
 
+  mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
 
-function daftar($data)
+function hapusUser($data)
 {
   global $conn;
-
-  $nama = htmlspecialchars($data["nama"]);
-  $email = strtolower($data["email"]);
-  $no_wa = htmlspecialchars($data["hp"]);
-  $password = $data["password"];
-  $id_role = 3; // Role member biasa
-
-  // Cek apakah email sudah dipakai
-  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
-  if (mysqli_num_rows($cek) > 0) {
-    echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain.');</script>";
-    return 0;
-  }
-
-  // Masukkan data ke DB
-  $query = "INSERT INTO user (nama_user, email_user, no_wa_user, password_user, id_role)
-            VALUES ('$nama', '$email', '$no_wa', '$password', $id_role)";
+  $query = "DELETE FROM user WHERE id_user = '$data'";
 
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
@@ -88,12 +67,20 @@ function daftar($data)
 function tambahadmin($data)
 {
   global $conn;
-  $email = $data["email_user"];
-  $password = $data["password_user"];
-  $nama = $data["nama_user"];
-  $no_wa = $data["no_wa_user"];
+  $email = htmlspecialchars($data["email_user"]);
+  $password = htmlspecialchars($data["password_user"]);
+  $nama = htmlspecialchars($data["nama_user"]);
+  $no_wa = htmlspecialchars($data["no_wa_user"]);
 
-  // Validasi email harus @gmail.com
+  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cek) > 0) {
+    echo "<script>
+      alert('Email sudah digunakan, gunakan email lain');
+      window.history.back();
+    </script>";
+    exit;
+  }
+
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -107,17 +94,24 @@ function tambahadmin($data)
   return mysqli_affected_rows($conn);
 }
 
-function editAdmin($data)
+function tambahMember($data)
 {
   global $conn;
-  $id_user = $data["id_user"];
-  $id_role = $data["id_role"];
-  $email = $data["email_user"];
-  $password = $data["password_user"];
-  $nama = $data["nama_user"];
-  $no_wa = $data["no_wa_user"];
 
-  // Validasi email harus @gmail.com
+  $nama = htmlspecialchars($data["nama_user"]);
+  $email = htmlspecialchars($data["email_user"]);
+  $no_wa = htmlspecialchars($data["no_wa_user"]);
+  $password = htmlspecialchars($data["password_user"]);
+
+  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cek) > 0) {
+    echo "<script>
+      alert('Email sudah digunakan, gunakan email lain');
+      window.history.back();
+    </script>";
+    exit;
+  }
+
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
       alert('Email harus menggunakan domain @gmail.com');
@@ -126,69 +120,13 @@ function editAdmin($data)
     exit;
   }
 
-  $query = "UPDATE user SET 
-    id_user = '$id_user',
-    id_role = '$id_role',
-    email_user = '$email',
-    password_user = '$password',
-    nama_user = '$nama',
-    no_wa_user  = '$no_wa' 
-    WHERE id_user = '$id_user'";
-
+  $query = "INSERT INTO user VALUES ('', '3', '$email','$password','$nama','$no_wa')";
   mysqli_query($conn, $query);
+
   return mysqli_affected_rows($conn);
 }
 
-function hapusAdmin($data)
-{
-  global $conn;
-  $query = "DELETE FROM user WHERE id_user = '$data'";
-
-  mysqli_query($conn, $query);
-  return mysqli_affected_rows($conn);
-}
-
-function hapusMember($data)
-{
-  global $conn;
-  $query = "DELETE FROM user WHERE id_user = '$data'";
-
-  mysqli_query($conn, $query);
-  return mysqli_affected_rows($conn);
-}
-
-function editMember($data)
-{
-  global $conn;
-  $id_user = $data["id_user"];
-  $id_role = $data["id_role"];
-  $email = $data["email_user"];
-  $password = $data["password_user"];
-  $nama = $data["nama_user"];
-  $no_wa = $data["no_wa_user"];
-
-  // Validasi email harus @gmail.com
-  if (!preg_match('/@gmail\.com$/', $email)) {
-    echo "<script>
-      alert('Email harus menggunakan domain @gmail.com');
-      window.history.back();
-    </script>";
-    exit;
-  }
-
-  $query = "UPDATE user SET 
-    id_user = '$id_user',
-    id_role = '$id_role',
-    email_user = '$email',
-    password_user = '$password',
-    nama_user = '$nama',
-    no_wa_user  = '$no_wa' 
-    WHERE id_user = '$id_user'";
-
-  mysqli_query($conn, $query);
-  return mysqli_affected_rows($conn);
-}
-
+// lapangan
 function tambahLpg($data)
 {
   global $conn;
@@ -202,53 +140,10 @@ function tambahLpg($data)
     return false;
   }
 
-
   $query = "INSERT INTO lapangan VALUES ('','$nama_lapangan','$harga_lapangan','$upload')";
 
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
-}
-
-function upload()
-{
-  $namaFile = $_FILES['foto_lapangan']['name'];
-  $ukuranFile = $_FILES['foto_lapangan']['size'];
-  $error = $_FILES['foto_lapangan']['error'];
-  $tmpName = $_FILES['foto_lapangan']['tmp_name'];
-
-  // Cek apakah tidak ada gambar yang di upload
-  if ($error === 4) {
-    echo "<script>
-    alert('Pilih gambar terlebih dahulu');
-    </script>";
-    return false;
-  }
-
-  // Cek apakah gambar
-  $extensiValid = ['jpg', 'png', 'jpeg'];
-  $extensiGambar = explode('.', $namaFile);
-  $extensiGambar = strtolower(end($extensiGambar));
-
-  if (!in_array($extensiGambar, $extensiValid)) {
-    echo "<script>
-    alert('Yang anda upload bukan gambar!');
-    </script>";
-    return false;
-  }
-
-  if ($ukuranFile > 1000000) {
-    echo "<script>
-    alert('Ukuran Gambar Terlalu Besar!');
-    </script>";
-    return false;
-  }
-
-  $namaFileBaru = uniqid();
-  $namaFileBaru .= '.';
-  $namaFileBaru .= $extensiGambar;
-  // Move File
-  move_uploaded_file($tmpName, '../img/Lapangan/' . $namaFileBaru);
-  return $namaFileBaru;
 }
 
 function editLpg($data)
@@ -302,6 +197,49 @@ function hapusLpg($id_lapangan)
   return mysqli_affected_rows($conn);
 }
 
+function upload()
+{
+  $namaFile = $_FILES['foto_lapangan']['name'];
+  $ukuranFile = $_FILES['foto_lapangan']['size'];
+  $error = $_FILES['foto_lapangan']['error'];
+  $tmpName = $_FILES['foto_lapangan']['tmp_name'];
+
+  // Cek apakah tidak ada gambar yang di upload
+  if ($error === 4) {
+    echo "<script>
+    alert('Pilih gambar terlebih dahulu');
+    </script>";
+    return false;
+  }
+
+  // Cek apakah gambar
+  $extensiValid = ['jpg', 'png', 'jpeg'];
+  $extensiGambar = explode('.', $namaFile);
+  $extensiGambar = strtolower(end($extensiGambar));
+
+  if (!in_array($extensiGambar, $extensiValid)) {
+    echo "<script>
+    alert('Yang anda upload bukan gambar!');
+    </script>";
+    return false;
+  }
+
+  if ($ukuranFile > 1000000) {
+    echo "<script>
+    alert('Ukuran Gambar Terlalu Besar!');
+    </script>";
+    return false;
+  }
+
+  $namaFileBaru = uniqid();
+  $namaFileBaru .= '.';
+  $namaFileBaru .= $extensiGambar;
+  // Move File
+  move_uploaded_file($tmpName, '../img/Lapangan/' . $namaFileBaru);
+  return $namaFileBaru;
+}
+
+// jadwal
 function editJadwal($data)
 {
   global $conn;
@@ -311,25 +249,23 @@ function editJadwal($data)
   $jam_tutup = $data["edit_jam_tutup"];
 
   $query = "UPDATE jadwal SET 
-    id_jadwal = '$id_jadwal',
-    hari_buka = '$hari_buka',
-    jam_buka = '$jam_buka',
-    jam_tutup = '$jam_tutup'
-    WHERE id_jadwal = '$id_jadwal'";
+            id_jadwal = '$id_jadwal',
+            hari_buka = '$hari_buka',
+            jam_buka = '$jam_buka',
+            jam_tutup = '$jam_tutup'
+            WHERE id_jadwal = '$id_jadwal'";
 
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
 
+// reservasi
 function konfirmasiReservasi($id_reservasi)
 {
   global $conn;
-
   $id = $id_reservasi;
-
-  $tes = mysqli_query($conn, "UPDATE reservasi SET status = 'lunas' WHERE id_reservasi = '$id'");
-
-  var_dump($tes);
+  $query = "UPDATE reservasi SET status = 'lunas' WHERE id_reservasi = '$id'";
+  mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
 }
 
@@ -351,15 +287,12 @@ function hapusReservasi($id_reservasi)
     }
   }
 
-  // Hapus data dari tabel database
   mysqli_query($conn, "DELETE FROM reservasi WHERE id_reservasi = $id_reservasi");
 
   return mysqli_affected_rows($conn);
 }
 
-
-// reservasi 
-function pesan($data)
+function addreservasi($data)
 {
   global $conn;
   $lapangan = $data["id_lapangan"];
@@ -378,67 +311,68 @@ function pesan($data)
 
 function formatJamBooking($dbString)
 {
-    // Jika string kosong, kembalikan string kosong
-    if (empty(trim($dbString))) {
-        return '';
+  // Jika string kosong, kembalikan string kosong
+  if (empty(trim($dbString))) {
+    return '';
+  }
+
+  $ranges = explode(',', $dbString);
+
+  // 2. Ambil semua jam yang dibooking
+  $bookedHours = [];
+  foreach ($ranges as $range) {
+    $parts = explode('-', trim($range));
+    if (count($parts) === 2) {
+      $start = (int)$parts[0];
+      $end = (int)$parts[1];
+      // Tambahkan semua jam dalam rentang ke array
+      for ($h = $start; $h < $end; $h++) {
+        $bookedHours[] = $h;
+      }
     }
-    
-    $ranges = explode(',', $dbString);
+  }
 
-    // 2. Ambil semua jam yang dibooking
-    $bookedHours = [];
-    foreach ($ranges as $range) {
-        $parts = explode('-', trim($range));
-        if (count($parts) === 2) {
-            $start = (int)$parts[0];
-            $end = (int)$parts[1];
-            // Tambahkan semua jam dalam rentang ke array
-            for ($h = $start; $h < $end; $h++) {
-                $bookedHours[] = $h;
-            }
-        }
+  if (empty($bookedHours)) {
+    return $dbString; // Kembalikan string asli jika format tidak dikenali
+  }
+
+  // 3. Urutkan dan hapus duplikat
+  sort($bookedHours);
+  $bookedHours = array_unique($bookedHours);
+
+  // 4. Kelompokkan jam-jam yang berurutan
+  $groups = [];
+  $currentGroup = [];
+  $lastHour = -1;
+
+  foreach ($bookedHours as $hour) {
+    if ($lastHour !== -1 && $hour > $lastHour + 1) {
+      // Jika ada jeda, simpan grup sebelumnya dan mulai grup baru
+      $groups[] = $currentGroup;
+      $currentGroup = [];
     }
+    $currentGroup[] = $hour;
+    $lastHour = $hour;
+  }
+  // Simpan grup terakhir
+  $groups[] = $currentGroup;
 
-    if (empty($bookedHours)) {
-        return $dbString; // Kembalikan string asli jika format tidak dikenali
+  // 5. Format setiap grup menjadi string HH:MM
+  $outputParts = [];
+  foreach ($groups as $group) {
+    if (!empty($group)) {
+      $startHour = min($group);
+      $endHour = max($group) + 1; // Jam selesai adalah jam terakhir + 1
+      $outputParts[] = sprintf('%02d:00 - %02d:00', $startHour, $endHour);
     }
+  }
 
-    // 3. Urutkan dan hapus duplikat
-    sort($bookedHours);
-    $bookedHours = array_unique($bookedHours);
+  // 6. Gabungkan semua bagian menjadi satu string akhir
+  return implode(', ', $outputParts);
+}
 
-    // 4. Kelompokkan jam-jam yang berurutan
-    $groups = [];
-    $currentGroup = [];
-    $lastHour = -1;
-
-    foreach ($bookedHours as $hour) {
-        if ($lastHour !== -1 && $hour > $lastHour + 1) {
-            // Jika ada jeda, simpan grup sebelumnya dan mulai grup baru
-            $groups[] = $currentGroup;
-            $currentGroup = [];
-        }
-        $currentGroup[] = $hour;
-        $lastHour = $hour;
-    }
-    // Simpan grup terakhir
-    $groups[] = $currentGroup;
-
-    // 5. Format setiap grup menjadi string HH:MM
-    $outputParts = [];
-    foreach ($groups as $group) {
-        if (!empty($group)) {
-            $startHour = min($group);
-            $endHour = max($group) + 1; // Jam selesai adalah jam terakhir + 1
-            $outputParts[] = sprintf('%02d:00 - %02d:00', $startHour, $endHour);
-        }
-    }
-
-    // 6. Gabungkan semua bagian menjadi satu string akhir
-    return implode(', ', $outputParts);
-} 
-
-function konfirmasibayar($data) {
+function konfirmasibayar($data)
+{
   global $conn;
   $id_reservasi = $data["id_reservasi"];
   $upload = uploadBukti();

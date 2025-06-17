@@ -10,7 +10,7 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
                     FROM reservasi 
                     JOIN user ON reservasi.id_user = user.id_user 
-                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan");
+                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan ORDER BY id_reservasi DESC");
 
 
 ?>
@@ -69,6 +69,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
             <thead class="table-inti">
               <tr class="align-middle">
                 <th scope="col">No</th>
+                <th scope="col">Id<br>Reservasi</th>
                 <th scope="col">Nama<br>Customer</th>
                 <th scope="col">Nama<br>Lapangan</th>
                 <th scope="col">Tanggal<br>Dipesan</th>
@@ -82,11 +83,12 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
               </tr>
             </thead>
             <tbody>
-              <?php $reservasi = array_reverse($reservasi);
+              <?php 
               $i = count($reservasi);
               foreach ($reservasi as $row) : ?>
                 <tr>
                   <td><?= $i--; ?></td>
+                  <td><?= $row["id_reservasi"]; ?></td>
                   <td><?= $row["nama_user"]; ?></td>
                   <td><?= $row["nama_lapangan"]; ?></td>
                   <td><?= $row["tanggal_dipesan"]; ?></td>

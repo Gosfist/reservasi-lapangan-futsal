@@ -22,6 +22,7 @@ if (isset($_POST["konfirmasibayar"])) {
           document.location.href = 'reservasi.php';
           </script>";
   } else {
+    var_dump(konfirmasibayar($_POST));
     echo "<script>
           alert('Gagal Bayar!');
           </script>";
@@ -149,7 +150,7 @@ if (isset($_POST["konfirmasibayar"])) {
 
     <div class="container">
 
-      <form action="" method="post" enctype="multipart/form-data">
+
         <div class="table-responsive">
           <table class="table table-responsive my-3">
             <thead>
@@ -324,7 +325,6 @@ if (isset($_POST["konfirmasibayar"])) {
           <div id="pagination"></div>
           <!-- Pagination -->
         </div>
-      </form>
     </div>
 
   </main>

@@ -2,7 +2,7 @@
 require "../../function.php";
 $id_user = $_GET["id"];
 
-if (hapusAdmin($id_user) > 0) {
+if (hapusUser($id_user) > 0) {
   echo "
   <script>
     alert('Data Berhasil Dihapus');

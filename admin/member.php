@@ -22,7 +22,8 @@ if (isset($_POST["tambah"])) {
 }
 
 if (isset($_POST["edit"])) {
-  if (editMember($_POST) > 0) {
+
+  if (editUser($_POST) > 0) {
     echo "<script>
   alert('Berhasil Di Edit');
   window.location.href = 'member.php';

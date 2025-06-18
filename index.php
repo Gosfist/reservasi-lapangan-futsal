@@ -136,7 +136,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <a href="../logout.php" class="btn btn-danger">Logout</a>
                   <button type="submit" class="btn btn-primary" name="editprofile" id="editprofile">Simpan</button>
                 </div>
               </div>

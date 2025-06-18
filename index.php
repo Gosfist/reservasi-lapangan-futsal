@@ -97,7 +97,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   <!-- Edit profil -->
 
   <?php
-  $iduserprofile = $_SESSION['id_user'];
+  $iduserprofile = (!isset($_SESSION['id_user']));
   $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 
   ?>
@@ -135,7 +135,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
                 </div>
               </div>
               <div class="modal-footer">
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
+                <a href="logout.php" class="btn btn-danger">Logout</a>
                 <a class="btn-getstarted btn btn-success" data-bs-toggle="modal" data-bs-target="#editProfilModal">Ubah</a>
               </div>
             </div>
@@ -146,7 +146,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   </div>
 
   <?php
-  $iduserprofile = $_SESSION['id_user'];
+  $iduserprofile = (!isset($_SESSION['id_user']));
   $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 
   ?>
@@ -306,7 +306,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
 
             <div class="col-6 col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
               <div class="course-item">
-                <img src="img/lapangan/<?= !empty($row["foto_lapangan"]) ? $row["foto_lapangan"] : 'default.jpg'; ?>" class="img-fluid" alt="...">
+                <img src="img/lapangan/<?= !empty($row["foto_lapangan"]) ? $row["foto_lapangan"] : 'default.jpg'; ?>" style="height: 200px; width: 300px" class="img-fluid" alt="...">
                 <div class="course-content">
                 </div>
                 <div class="p-3 text-content">

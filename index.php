@@ -79,7 +79,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
       <?php endif; ?>
 
       <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
-        <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#editProfilModal">
+        <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#cekProfilModal">
           <i class="bi bi-person"></i> Profile
         </a>
       <?php endif; ?>
@@ -101,6 +101,55 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 
   ?>
+  <div class="modal fade" id="cekProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tambahModalLabel">Edit Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <?php $i = 1; ?>
+        <?php foreach ($editprofiles as $editprofile) : ?>
+          <input type="hidden" name="id_user" value="<?= $editprofile["id_user"]; ?>">
+          <div class="modal-body">
+            <div class="row justify-content-center align-items-center">
+              <input type="hidden" name="id_user" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["id_user"]; ?>" disabled>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Nama</label>
+                  <input type="text" name="nama" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["nama_user"]; ?>" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Email</label>
+                  <input type="email" name="email" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["email_user"]; ?>" disabled>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">No Wa</label>
+                  <input type="number" name="nowa" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["no_wa_user"]; ?>" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="text" name="pass" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["password_user"]; ?>" disabled>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <a href="../logout.php" class="btn btn-danger">Logout</a>
+                <a class="btn-getstarted btn btn-success" data-bs-toggle="modal" data-bs-target="#editProfilModal">Ubah</a>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+
+  <?php
+  $iduserprofile = $_SESSION['id_user'];
+  $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+
+  ?>
   <div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -114,7 +163,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
             <input type="hidden" name="id_user" value="<?= $editprofile["id_user"]; ?>">
             <div class="modal-body">
               <div class="row justify-content-center align-items-center">
-                <input type="hidden" name="id_user" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["id_user"]; ?>">
+                <input type="hidden" name="id_user" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["id_user"]; ?>" require>
                 <div class="col">
                   <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nama</label>
@@ -136,7 +185,7 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
                   </div>
                 </div>
                 <div class="modal-footer">
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                   <button type="submit" class="btn btn-primary" name="editprofile" id="editprofile">Simpan</button>
                 </div>
               </div>

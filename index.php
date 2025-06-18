@@ -97,8 +97,14 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   <!-- Edit profil -->
 
   <?php
-  $iduserprofile = (!isset($_SESSION['id_user']));
-  $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+  $iduserprofile = isset($_SESSION['id_user']) ? $_SESSION['id_user'] : null;
+
+  if ($iduserprofile !== null) {
+    $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+  } else {
+    // Tangani kasus ketika id_user tidak tersedia
+    $editprofiles = null;
+  }
 
   ?>
   <div class="modal fade" id="cekProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
@@ -146,8 +152,14 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   </div>
 
   <?php
-  $iduserprofile = (!isset($_SESSION['id_user']));
-  $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+  $iduserprofile = isset($_SESSION['id_user']) ? $_SESSION['id_user'] : null;
+
+  if ($iduserprofile !== null) {
+    $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+  } else {
+    // Tangani kasus ketika id_user tidak tersedia
+    $editprofiles = null;
+  }
 
   ?>
   <div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">

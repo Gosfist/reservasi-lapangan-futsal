@@ -58,7 +58,7 @@ $penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE 
       <hr>
       <div class="container">
         <div class="row">
-          <div class="col-md-4 col-xl-3">
+          <div class="col-md-4 col-xl-6">
             <div class="card bg-c-blue order-card">
               <div class="card-block">
                 <h6>Member</h6>
@@ -67,7 +67,7 @@ $penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE 
             </div>
           </div>
 
-          <div class="col-md-4 col-xl-3">
+          <div class="col-md-4 col-xl-6">
             <div class="card bg-c-green order-card">
               <div class="card-block">
                 <h6>Reservasi</h6>
@@ -76,7 +76,7 @@ $penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE 
             </div>
           </div>
 
-          <div class="col-md-4 col-xl-3">
+          <div class="col-md-4 col-xl-6">
             <div class="card bg-c-yellow order-card">
               <div class="card-block">
                 <h6>Lapangan</h6>
@@ -85,7 +85,7 @@ $penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE 
             </div>
           </div>
 
-          <div class="col-md-4 col-xl-3">
+          <div class="col-md-4 col-xl-6">
             <div class="card bg-c-pink order-card">
               <div class="card-block">
                 <h6>Penjualan</h6>
@@ -95,8 +95,7 @@ $penghasilan = query("SELECT SUM(harga) AS jml_penghasilan FROM reservasi WHERE 
           </div>
         </div>
       </div>
-      <h3 class="container mt-3">Statistik</h3>
-      <hr>
+      
 
     </div>
 

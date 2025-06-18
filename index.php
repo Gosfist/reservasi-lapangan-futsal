@@ -51,137 +51,116 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
 
   <!-- navbar -->
   <header id="header" class="header d-flex align-items-center sticky-top">
-  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-    <a href="index.php" class="logo d-flex align-items-center me-auto">
-      <!-- Uncomment the line below if you also wish to use an image logo -->
-      <img src="assets/img/logo.png" alt="">
-    </a>
-
-    <nav id="navmenu" class="navmenu">
-      <ul>
-        <li><a href="index.php">Beranda<br></a></li>
-        <li><a href="user/lapangan.php">Lapangan</a></li>
-        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User' || $_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
-          <li class="nav-item">
-            <a class="nav-link" href="user/reservasi.php">Reservasi</a>
-          </li>
-        <?php endif; ?>
-        <li><a href="./user/kontak.php">Kontak</a></li>
-      </ul>
-      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-    </nav>
-
-    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
-      <a href="./admin/home.php" class="btn-getstarted">
-        <i class="bi bi-person"></i> Dashboard
+      <a href="index.php" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo.png" alt="">
       </a>
-    <?php endif; ?>
 
-    <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
-      <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#profilModal">
-        <i class="bi bi-person"></i> Profile
-      </a>
-    <?php endif; ?>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.php">Beranda<br></a></li>
+          <li><a href="user/lapangan.php">Lapangan</a></li>
+          <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User' || $_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
+            <li class="nav-item">
+              <a class="nav-link" href="user/reservasi.php">Reservasi</a>
+            </li>
+          <?php endif; ?>
+          <li><a href="./user/kontak.php">Kontak</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-    <?php if (!isset($_SESSION['role'])) : ?>
-      <a href="login.php" class="btn-getstarted">
-        <i class="bi bi-person"></i> Login
-      </a>
-    <?php endif; ?>
+      <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'SuperAdmin' || $_SESSION['role'] === 'Admin')) : ?>
+        <a href="./admin/home.php" class="btn-getstarted">
+          <i class="bi bi-person"></i> Dashboard
+        </a>
+      <?php endif; ?>
+
+      <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'User')) : ?>
+        <a class="btn-getstarted" data-bs-toggle="modal" data-bs-target="#editProfilModal">
+          <i class="bi bi-person"></i> Profile
+        </a>
+      <?php endif; ?>
+
+      <?php if (!isset($_SESSION['role'])) : ?>
+        <a href="login.php" class="btn-getstarted">
+          <i class="bi bi-person"></i> Login
+        </a>
+      <?php endif; ?>
 
 
-  </div>
-</header> 
+    </div>
+  </header>
 
-  <!-- Modal Profil -->
-  <div class="modal fade" id="profilModal" tabindex="-1" aria-labelledby="profilModalLabel" aria-hidden="true">
+  <!-- Edit profil -->
+
+  <?php
+  $iduserprofile = $_SESSION['id_user'];
+  $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
+
+  ?>
+  <div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="profilModalLabel">Profil Pengguna</h5>
+          <h5 class="modal-title" id="tambahModalLabel">Edit Profile</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="" method="post">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-4 my-5">
-                <img src="img/<?= $profil["212279_foto"]; ?>" alt="Foto Profil" class="img-fluid ">
-              </div>
-              <div class="col-8">
-                <h5 class="mb-3"><?= $profil["212279_nama_lengkap"]; ?></h5>
-                <p><?= $profil["212279_jenis_kelamin"]; ?></p>
-                <p><?= $profil["212279_email"]; ?></p>
-                <p><?= $profil["212279_no_handphone"]; ?></p>
-                <p><?= $profil["212279_alamat"]; ?></p>
-                <a href="logout.php" class="btn btn-danger">Logout</a>
-                <a href="" data-bs-toggle="modal" data-bs-target="#editProfilModal" class="btn btn-inti">Edit Profil</a>
+        <?php $i = 1; ?>
+        <?php foreach ($editprofiles as $editprofile) : ?>
+          <form action="" method="post">
+            <input type="hidden" name="id_user" value="<?= $editprofile["id_user"]; ?>">
+            <div class="modal-body">
+              <div class="row justify-content-center align-items-center">
+                <input type="hidden" name="id_user" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["id_user"]; ?>">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nama</label>
+                    <input type="text" name="nama" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["nama_user"]; ?>" require>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["email_user"]; ?>" require>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">No Wa</label>
+                    <input type="number" name="nowa" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["no_wa_user"]; ?>" require>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="text" name="pass" class="form-control" id="exampleInputPassword1" value="<?= $editprofile["password_user"]; ?>" require>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary" name="editprofile" id="editprofile">Simpan</button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        <?php endforeach; ?>
       </div>
     </div>
   </div>
-  <!-- Modal Profil -->
 
-  <!-- Edit profil -->
-  <div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
-    <div class="modal-dialog edit modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editProfilModalLabel">Edit Profil</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="fotoLama" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_foto"]; ?>">
-          <div class="modal-body">
-            <div class="row justify-content-center align-items-center">
-              <div class="mb-3">
-                <img src="img/<?= $profil["212279_foto"]; ?>" alt="Foto Profil" class="img-fluid ">
-              </div>
-              <div class="col">
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Nama Lengkap</label>
-                  <input type="text" name="212279_nama_lengkap" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_nama_lengkap"]; ?>">
-                </div>
-                <div class="mb-3">
-                  <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                  <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                    <option value="Laki-laki" <?php if ($profil['212279_jenis_kelamin'] == 'Laki-laki') echo 'selected'; ?>>Laki-laki</option>
-                    <option value="Perempuan" <?php if ($profil['212279_jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-              <div class="mb-3">
-                  <label for="212279_no_handphone" class="form-label">No Telp</label>
-                  <input type="number" name="212279_no_handphone" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_no_handphone"]; ?>">
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Email</label>
-                  <input type="email" name="email" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_email"]; ?>">
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">alamat</label>
-                <input type="text" name="212279_alamat" class="form-control" id="exampleInputPassword1" value="<?= $profil["212279_alamat"]; ?>">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Foto : </label>
-                <input type="file" name="212279_foto" class="form-control" id="exampleInputPassword1">
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-inti" name="simpan" id="simpan">Simpan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <!-- End Edit Modal -->
+  <?php
+  if (isset($_POST["editprofile"])) {
+    if (editprofile($_POST) > 0) {
+      echo "<script>
+  alert('Berhasil Di Edit');
+  window.location.href = 'index.php';
+</script>";
+    } else {
+      echo "<script>
+  alert('Gagal Di Edit');
+</script>";
+    }
+  }
+  ?>
 
   <main class="main">
 
@@ -237,21 +216,21 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
 
         <div class="row gy-4">
 
-        <div class="row justify-content-center">
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
-              <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_member; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
-              <p>Pelanggan</p>
-          </div>
-        </div><!-- End Stats Item -->
-      
+          <div class="row justify-content-center">
+            <div class="col-6 col-lg-3 col-md-6">
+              <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
+                <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_member; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
+                <p>Pelanggan</p>
+              </div>
+            </div><!-- End Stats Item -->
 
-        <div class="col-6 col-lg-3 col-md-6">
-          <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
-            <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_lapangan; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
-            <p>Lapangan</p>
-          </div>
-        </div><!-- End Stats Item -->
+
+            <div class="col-6 col-lg-3 col-md-6">
+              <div class="shadow rounded stats-item text-center w-100 h-100 p-3">
+                <span data-purecounter-start="0" data-purecounter-end="<?= $jumlah_lapangan; ?>" data-purecounter-duration="1" class="purecounter display-4"></span>
+                <p>Lapangan</p>
+              </div>
+            </div><!-- End Stats Item -->
 
           </div>
         </div>
@@ -298,51 +277,51 @@ $jumlah_lapangan = $dataLapangan['total_lapangan'];
   </main>
 
   <footer id="footer" class="footer bg-light py-5">
-  <div class="container">
-    <div class="row gy-4 align-items-start">
-      
-      <!-- Kolom Kiri: Info Basecamp -->
-      <div class="col-md-4 text-start">
-        <a href="index.php" class="logo d-flex align-items-center mb-3">
-          <span class="sitename fs-4 fw-bold text-dark">Basecamp</span>
-        </a>
-        <p class="mb-2 fs-6 text-muted">
-          Jalan Brigjen Katamso KAV. Mbah, Gg. Mangun No.43,<br>
-          Tompokersan, Kec. Lumajang, Kabupaten Lumajang, Jawa Timur 67316
-        </p>
-        <p class="mb-1 fs-6"><strong>Phone:</strong> <span>+62 831 1036 1634</span></p>
-        <p class="fs-6"><strong>Email:</strong> <span>bascmpsc@gmail.com</span></p>
-        <div class="social-links d-flex gap-3 mt-3">
-          <a href="#"><i class="bi bi-geo-alt fs-5 text-dark"></i></a>
-          <a href="#"><i class="bi bi-telephone fs-5 text-dark"></i></a>
-          <a href="#"><i class="bi bi-envelope fs-5 text-dark"></i></a>
-        </div>
-      </div>
+    <div class="container">
+      <div class="row gy-4 align-items-start">
 
-      <!-- Kolom Tengah: Navigasi -->
-      <div class="col-md-4 d-flex flex-column align-items-center">
-        <h5 class="fw-semibold mb-3">Navigasi</h5>
+        <!-- Kolom Kiri: Info Basecamp -->
+        <div class="col-md-4 text-start">
+          <a href="index.php" class="logo d-flex align-items-center mb-3">
+            <span class="sitename fs-4 fw-bold text-dark">Basecamp</span>
+          </a>
+          <p class="mb-2 fs-6 text-muted">
+            Jalan Brigjen Katamso KAV. Mbah, Gg. Mangun No.43,<br>
+            Tompokersan, Kec. Lumajang, Kabupaten Lumajang, Jawa Timur 67316
+          </p>
+          <p class="mb-1 fs-6"><strong>Phone:</strong> <span>+62 831 1036 1634</span></p>
+          <p class="fs-6"><strong>Email:</strong> <span>bascmpsc@gmail.com</span></p>
+          <div class="social-links d-flex gap-3 mt-3">
+            <a href="#"><i class="bi bi-geo-alt fs-5 text-dark"></i></a>
+            <a href="#"><i class="bi bi-telephone fs-5 text-dark"></i></a>
+            <a href="#"><i class="bi bi-envelope fs-5 text-dark"></i></a>
+          </div>
+        </div>
+
+        <!-- Kolom Tengah: Navigasi -->
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <h5 class="fw-semibold mb-3">Navigasi</h5>
           <ul class="list-unstyled fs-6 text-center">
             <li class="mb-2"><a href="index.php" class="text-decoration-none text-muted">Beranda</a></li>
             <li class="mb-2"><a href="user/lapangan.php" class="text-decoration-none text-muted">Lapangan</a></li>
             <li class="mb-2"><a href="user/kontak.php" class="text-decoration-none text-muted">Kontak</a></li>
-          <?php if (isset($_SESSION['id_user'])): ?>
-            <li class="mb-2"><a href="user/reservasi.php" class="text-decoration-none text-muted">Reservasi</a></li>
-          <?php endif; ?>
-        </ul>
-      </div>
+            <?php if (isset($_SESSION['id_user'])): ?>
+              <li class="mb-2"><a href="user/reservasi.php" class="text-decoration-none text-muted">Reservasi</a></li>
+            <?php endif; ?>
+          </ul>
+        </div>
 
-      <!-- Kolom Kanan: Syarat & Ketentuan, agak ke tengah -->
-      <div class="col-md-4 d-flex flex-column align-items-center">
-        <h5 class="fw-semibold mb-3">Syarat & Ketentuan</h5>
-        <ul class="list-unstyled fs-6">
-          <li><a href="user/syaratKetentuan.php" class="text-decoration-none text-muted">Lihat Syarat & Ketentuan</a></li>
-        </ul>
-      </div>
+        <!-- Kolom Kanan: Syarat & Ketentuan, agak ke tengah -->
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <h5 class="fw-semibold mb-3">Syarat & Ketentuan</h5>
+          <ul class="list-unstyled fs-6">
+            <li><a href="user/syaratKetentuan.php" class="text-decoration-none text-muted">Lihat Syarat & Ketentuan</a></li>
+          </ul>
+        </div>
 
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
 
   <!-- Scroll Top -->

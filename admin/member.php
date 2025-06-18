@@ -21,6 +21,7 @@ if (isset($_POST["tambah"])) {
   }
 }
 
+
 if (isset($_POST["edit"])) {
 
   if (editUser($_POST) > 0) {
@@ -33,6 +34,10 @@ if (isset($_POST["edit"])) {
   alert('Gagal Di Edit');
 </script>";
   }
+}
+
+if (isset($_POST['cari'])) {
+  $member = carimember($_POST['keyword']);
 }
 
 ?>
@@ -84,7 +89,21 @@ if (isset($_POST["edit"])) {
       <div class="container">
         <h3 class="mt-4">Data Member</h3>
         <hr>
-        <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal">Tambah</button>
+        <div class="d-flex justify-content-between align-items-center">
+          <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#tambahModal">Tambah</button>
+
+          <form action="" method="post">
+            <div class="input-group">
+              <div class="form-outline" data-mdb-input-init>
+                <input type="search" name="keyword" id="form1" class="form-control" placeholder="Search email" />
+              </div>
+              <button name="cari" type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
         <!-- Modal Tambah -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">

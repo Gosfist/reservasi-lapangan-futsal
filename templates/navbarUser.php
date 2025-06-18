@@ -44,7 +44,7 @@
 <!-- Edit profil -->
 
 <?php
-$iduserprofile = $_SESSION['id_user'];
+$iduserprofile = (!isset($_SESSION['id_user']));
 $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 
 ?>
@@ -93,7 +93,7 @@ $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 </div>
 
 <?php
-$iduserprofile = $_SESSION['id_user'];
+$iduserprofile = (!isset($_SESSION['id_user']));
 $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
 
 ?>

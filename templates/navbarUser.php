@@ -83,8 +83,8 @@ $editprofiles = query("SELECT * FROM user WHERE id_user = $iduserprofile");
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary" name="editprofile" id="editprofile">Simpan</button>
+                <a href="../logout.php" class="btn btn-danger">Logout</a>
+                <button type="submit" class="btn btn-primary" name="editprofile" id="editprofile">Ubah</button>
               </div>
             </div>
           </div>

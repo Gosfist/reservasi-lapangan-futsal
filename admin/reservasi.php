@@ -10,8 +10,11 @@ if ($role !== 'SuperAdmin' && $role !== 'Admin') {
 $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
                     FROM reservasi 
                     JOIN user ON reservasi.id_user = user.id_user 
-                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan ORDER BY id_reservasi DESC");
+                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan ORDER BY id_reservasi DESC ");
 
+if (isset($_POST['cari'])) {
+  $reservasi = cari($_POST['keyword']);
+}
 
 ?>
 
@@ -63,7 +66,16 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
         <!-- Konten -->
         <h3 class="mt-4">Data Reservasi</h3>
         <hr>
-        <a href="export.php" class="btn btn-success mb-2">Download</a>
+        <form action="" method="post">
+          <div class="input-group d-flex justify-content-end">
+            <div class="form-outline" data-mdb-input-init>
+              <input type="search" name="keyword" id="form1" class="form-control" placeholder="Search id reservasi" />
+            </div>
+            <button name="cari" type="submit" class="btn btn-primary" data-mdb-ripple-init>
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form><br>
         <div class="table-responsive">
           <table class="table table-hover text-center">
             <thead class="table-inti">
@@ -83,7 +95,7 @@ $reservasi = query("SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan
               </tr>
             </thead>
             <tbody>
-              <?php 
+              <?php
               $i = count($reservasi);
               foreach ($reservasi as $row) : ?>
                 <tr>

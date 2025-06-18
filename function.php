@@ -26,6 +26,8 @@ function query($data)
   return $rows;
 }
 
+
+
 // user
 function editUser($data)
 {
@@ -441,6 +443,15 @@ function editprofile($data)
   $nama = $data["nama"];
   $no_wa = $data["nowa"];
 
+  $cek = mysqli_query($conn, "SELECT * FROM user WHERE email_user = '$email'");
+  if (mysqli_num_rows($cek) > 0) {
+    echo "<script>
+      alert('Email sudah digunakan, gunakan email lain');
+      window.history.back();
+    </script>";
+    exit;
+  }
+
   // Validasi email harus @gmail.com
   if (!preg_match('/@gmail\.com$/', $email)) {
     echo "<script>
@@ -460,4 +471,24 @@ function editprofile($data)
 
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
+}
+
+// searching
+function cari($data) {
+
+  $query = "SELECT reservasi.*, user.nama_user, lapangan.nama_lapangan 
+                    FROM reservasi 
+                    JOIN user ON reservasi.id_user = user.id_user 
+                    JOIN lapangan ON reservasi.id_lapangan = lapangan.id_lapangan WHERE id_reservasi LIKE '%$data%' ORDER BY id_reservasi DESC ";
+
+  return query($query);
+
+}
+
+function carimember($data) {
+
+  $query = "SELECT * FROM user WHERE id_role = 3 AND email_user LIKE '%$data%'";
+
+  return query($query);
+
 }

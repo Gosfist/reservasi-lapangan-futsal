@@ -1,29 +1,34 @@
 <?php
-// syarat-ketentuan.php
+session_start();
+require "../function.php";
 ?>
 <!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Syarat & Ketentuan</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/img/logo.png" rel="icon">
-</head>
-<body>
+<html lang="en">
 
-  <!-- Header atau Navbar (opsional) -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.php">Basecamp Sport Center</a>
+<!-- header -->
+<?php require_once '../templates/headUser.php'; ?>
 
-    </div>
-  </nav>
+<body class="index-page">
 
-  <!-- Konten Utama -->
-  <div class="container py-4">
-    <h2 class="mb-4 text-center fw-bold">Syarat & Ketentuan Pemesanan Lapangan</h2>
+  <?php require_once '../templates/navbarUser.php'; ?>
+
+
+  <main class="main">
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <img src="../assets/img/hero-bg.jpg" alt="">
+      <div class="heading">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-8">
+              <h1>Syarat & Kententuan</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Page Title -->
+
+    <div class="container py-4">
     <ol class="fs-5 text-muted">
       <li>Pemesanan lapangan dapat dilakukan secara online melalui situs resmi <strong>Basecamp Sport Center</strong>.</li>
       <li>Pengguna wajib melakukan registrasi dan login sebelum melakukan reservasi.</li>
@@ -35,19 +40,64 @@
       <li>Kerusakan fasilitas yang disebabkan oleh pengguna menjadi tanggung jawab pengguna sepenuhnya.</li>
       <li>Pengelola berhak menolak layanan kepada pengguna yang melanggar aturan dan tata tertib.</li>
     </ol>
-    <div class="mt-4 text-center">
-      <a href="../index.php" class="btn btn-primary"><i class="bi bi-arrow-left"></i> Kembali ke Beranda</a>
-    </div>
   </div>
+  </main>
+
+
 
   <!-- Footer -->
-  <footer class="bg-light text-center text-muted py-4 mt-5">
-    <div class="container">
-      &copy; <?= date('Y') ?> Basecamp Sport Center. All rights reserved.
-    </div>
-  </footer>
+  <?php require_once '../templates/footerUser.php'; ?>
 
-  <!-- Script Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    function notiflogin() {
+      alert("Silakan login terlebih dulu sebelum melakukan pemesanan.");
+    }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('.cek-jam-btn').click(function() {
+        var lapId = $(this).data('lapangan');
+        var tgl = $('#tgl_main_' + lapId).val();
+        if (!tgl) {
+          $('#jamCheckboxContainer' + lapId).html('<div class="text-danger">Silakan pilih tanggal terlebih dahulu!</div>');
+          return;
+        }
+        $.get('./controller/cekKetersediaan.php', {
+          tgl: tgl,
+          id_lapangan: lapId
+        }, function(data) {
+          $('#jamCheckboxContainer' + lapId).html(data);
+        });
+      });
+
+      // Update hidden input jika checkbox berubah
+      $(document).on('change', '[id^=jamCheckboxContainer] input[type=checkbox]', function() {
+        var lapId = $(this).closest('div[id^=jamCheckboxContainer]').attr('id').replace('jamCheckboxContainer', '');
+        var checked = [];
+        $('#jamCheckboxContainer' + lapId + ' input[type=checkbox]:checked').each(function() {
+          checked.push($(this).val());
+        });
+        $('#jam_mulai_input' + lapId).val(checked.join(','));
+      });
+    });
+  </script>
 </body>
-</html>
+
+</html> 
